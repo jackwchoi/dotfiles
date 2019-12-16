@@ -1,0 +1,11 @@
+[user]
+  name = Jack
+  email = jchoi5@me.com
+[color]
+  branch = auto
+  diff = auto
+  interactive = auto
+  status = auto
+  grep = auto
+[alias]
+  lol = log --graph --oneline --date-order 

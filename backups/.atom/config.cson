@@ -1,0 +1,66 @@
+"*":
+  "color-picker": {}
+  core:
+    closeDeletedFileTabs: true
+    customFileTypes:
+      "source.ini": [
+        ".buckconfig"
+        ".flowconfig"
+        ".hgrc"
+      ]
+      "source.json": [
+        "BUCK.autodeps"
+      ]
+      "source.python": [
+        "BUCK"
+      ]
+    disabledPackages: [
+      "ide-java"
+      "atom-ide-ui"
+      "hyperclick"
+      "ide-flowtype"
+    ]
+    packagesWithKeymapsDisabled: [
+      "sort-lines"
+    ]
+    projectHome: "/Users/jackchoi"
+    telemetryConsent: "limited"
+  editor:
+    fontSize: 17
+    invisibles: {}
+    preferredLineLength: 100
+    showIndentGuide: true
+    tabType: "soft"
+  "exception-reporting":
+    userId: "b67e2ecb-9099-42e4-ba57-d2c4665a9e3b"
+  "markdown-preview": {}
+  minimap:
+    absoluteMode: true
+    core:
+      autoRunCommand: "source ~/.bash_profile"
+    iconColors:
+      blue: "#6ccdff"
+    plugins:
+      "highlight-selected": true
+      "highlight-selectedDecorationsZIndex": 0
+    style:
+      animationSpeed: 1000
+    toggles:
+      cursorBlink: false
+      loginShell: false
+  "spell-check":
+    addKnownWords: true
+    knownWords: [
+      "len"
+    ]
+  "tree-view":
+    focusOnReveal: false
+    hideVcsIgnoredFiles: true
+    sortFoldersBeforeFiles: true
+    squashDirectoryNames: true
+  welcome:
+    showOnStartup: false
+".rust.source":
+  editor:
+    preferredLineLength: 100
+    tabLength: 2

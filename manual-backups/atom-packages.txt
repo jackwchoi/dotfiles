@@ -1,0 +1,10 @@
+autoclose-html
+color-picker
+file-icons
+highlight-selected
+language-latex
+language-rust
+language-scala
+minimap
+minimap-highlight-selected
+sort-lines
