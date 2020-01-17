@@ -1,16 +1,7 @@
 # paths
 export PATH="$(getconf PATH)"  # prevents `r` from duplicating $PATH
-export PATH="/usr/local/bin:$PATH"
 export PATH="/Library/TeX/texbin:$PATH"
-export PATH="/usr/local/opt/gnu-getopt/bin:$PATH"
-export PATH="/usr/local/opt/ncurses/bin:$PATH"
-export PATH="/usr/local/opt/openssl/bin:$PATH"
-export PATH="/usr/local/opt/scala/libexec/bin:$PATH"
-export PATH="/usr/local/opt/unzip/bin:$PATH"
-export PATH="/usr/local/opt/zip/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"  # for clamd
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/.cargo/bin:$PATH"
 # use gnu bin without the g-prefix
 export PATH="/usr/local/Cellar/gnu-which/libexec/gnubin:$PATH"
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
@@ -20,6 +11,16 @@ export PATH="/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
 export PATH="/usr/local/opt/gnu-time/libexec/gnubin:$PATH"
 export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
 export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
+#
+export PATH="/usr/local/opt/gnu-getopt/bin:$PATH"
+export PATH="/usr/local/opt/ncurses/bin:$PATH"
+export PATH="/usr/local/opt/openssl/bin:$PATH"
+export PATH="/usr/local/opt/scala/libexec/bin:$PATH"
+export PATH="/usr/local/opt/unzip/bin:$PATH"
+export PATH="/usr/local/opt/zip/bin:$PATH"
+#
+export PATH="/usr/local/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
 
 # used to be dropbox
 export WORKSPACE="$HOME/tresor-jack"
@@ -31,11 +32,11 @@ export SCALA_HOME='/usr/local/opt/scala'
 
 # need to wrap non-printable sequences in \[ and \]
 # http://pueblo.sourceforge.net/doc/manual/ansi_color_codes.html
-SET_BLUE='\[\e\033[34m'
+SET_FG_COLOR='\[\e\033[34m'
 RESET_ALL='\[\e\033[0m'
 
 # http://man7.org/linux/man-pages/man3/strftime.3.html
-export PS1="\n$SET_BLUE\w\n  $ $RESET_ALL"  # simple; for tmux
+export PS1="\n$SET_FG_COLOR\w\n  $ $RESET_ALL"  # simple; for tmux
 
 # colorize `ls` output
 BLUE='34'
@@ -45,7 +46,7 @@ GREY='37'
 ORANGE='33'
 PURPLE='35'
 RED='31'
-export LS_COLORS="di=0;$ORANGE:ln=0;$CYAN:ex=0;$GREEN"
+#export LS_COLORS="di=0;$PURPLE:ln=0;$CYAN:ex=0;$GREEN"
 
 # for `man` to work with gnu utils
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
@@ -55,6 +56,7 @@ export MANPATH="/usr/local/opt/make/libexec/gnuman:$MANPATH"
 # other env vars
 export BAT_PAGER=''  # no pager by default
 export BAT_STYLE='full'
+#export BAT_THEME='OneHalfLight'
 export BAT_THEME='OneHalfDark'
 export FZF_DEFAULT_COMMAND='\fd .'
 #null false true numbers strings arrays objects
@@ -88,12 +90,14 @@ alias htop='htop --delay=20'
 alias jrepl='julia -ie "using LinearAlgebra; using RowEchelon"'
 alias les='\less --long-prompt --ignore-case --shift .0625 --status-column --RAW-CONTROL-CHARS +Gg'
 alias less='les --chop-long-lines'
-alias ls='ls --almost-all --classify --color=auto --group-directories-first'
+#alias ls='ls --almost-all --classify --color=auto --group-directories-first'
+alias ls='exa --all --classify'
 alias mkdir='mkdir --parents --verbose'
 alias mv='mv --interactive --verbose'
 alias ncdu='ncdu -rr --color dark'
 alias nload='nload devices en7 -u H'
 alias oxipng='oxipng --opt 4 --interlace 1 --strip safe'
+alias p='parallel'
 alias pip='pip3'
 alias python='python3'
 alias ql='qlmanage -p'
@@ -101,10 +105,13 @@ alias r='source ~/.bash_profile'
 alias rg='rg --hidden --smart-case --unrestricted'
 alias rm='rm --verbose'
 alias sed='sed --regexp-extended'
+alias sk='sk --inline-info --multi --prompt "$ " --color matched:1,matched_bg:-1,info:-1,current_bg:239,current_match:1,current_match_bg:239,prompt:4,cursor:1'
 alias speedtest='speedtest --secure --bytes --simple'
 alias ti='termimage --ansi truecolor'
-alias tree='tree -aCF'  # colorize output
+#alias tree='tree -aCF'  # colorize output
+alias tree='exa --all --classify --tree'
 alias which='alias | gwhich --read-alias --show-dot --show-tilde'
+alias wrf='while read f; do'
 alias xargs='xargs --delimiter "\n"'
 alias youtube-dl='youtube-dl --no-cache-dir'
 

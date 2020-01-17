@@ -151,6 +151,8 @@ draw_bold_text_with_bright_colors: false
 colors:
   # Default colors
   primary:
+    #background: '0xffffff'  # light
+    #foreground: '0x000000'  # light
     background: '0x292c34'
     foreground: '0xeaeaea'
 

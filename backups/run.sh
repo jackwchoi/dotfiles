@@ -52,6 +52,7 @@ function clean_quick {
     find ~/ -maxdepth 1 
     find "$WORKSPACE"
     find ~/{Desktop,Documents,Downloads}/
+    find ~/tresor-*
   } |
     rg "/(\.$REPL|\.$MISC|__pycache__)$" |
     rmf -t
@@ -69,12 +70,6 @@ function clean_quick {
   rmf -t ~/Library/Saved\ Application\ State
 
   qlmanage -r
-
-  necho 'Cleaning ExpressVPN files...'
-  rmf -t ~/Documents/ExpressVPN\ Shortcuts
-
-  necho 'Cleaning temps...'
-  rmf -t $(dirname $(mktemp --dry-run))/tmp.*
 
   : | pbcopy
   wait
@@ -156,15 +151,16 @@ if $START_FULL; then
 
   necho 'Refreshing Calendar...'
   refresh-calendar &> /dev/null &
-
+  
+  brave
   weather
 
-  open_apps 'ExpressVPN' 'Tresorit' 'Dashlane'
+  open_apps 'ProtonVPN' 'Tresorit'
 
   wait
 elif $START_QUICK; then
   necho 'Performing START_QUICK...'
-  open_apps 'Tresorit'
+  open_apps 'ProtonVPN' 'Tresorit'
 fi
 
 if $UPDATE_QUICK; then

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+ps -A |
+  rg 'clamd' |
+  rg -v 'grep' |
+  rg -Po '^\s*[0-9]+' |
+  xargs kill -9

@@ -1,15 +1,8 @@
-broot
 cargo-update
 cargo-watch
-fd-find
 fdup
-ffsend
-hyperfine
 mdtoc
-oxipng
-ripgrep
 rmf
 tally
 termimage
-tokei
 trim

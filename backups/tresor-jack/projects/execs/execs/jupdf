@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+NAME=$(sed -E 's/\.[^\.]+$//' <<< "$1")
+
+function finish {
+  cp "$OUT/$NAME.pdf" ./
+  rm -rf "$NAME.tex"
+}
+trap finish EXIT
+
+jupyter nbconvert --to latex "$1" "$NAME.tex" &&
+  jatex "$NAME.tex"

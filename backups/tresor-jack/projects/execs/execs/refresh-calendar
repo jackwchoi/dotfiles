@@ -1,0 +1,9 @@
+#!/usr/bin/env osascript
+
+tell application "Calendar" to activate
+
+tell application "System Events"
+    try
+        click menu item "Refresh Calendars" of menu 1 of menu bar item "View" of menu bar 1 of process "Calendar"
+    end try
+end tell

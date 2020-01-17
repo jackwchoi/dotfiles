@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# $1 -> md file to convert
+grip --user='jackGrip' --pass='jackgrip12345' --export "$1" $(sed -E 's/md$/html/g' <<< "$1")

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+if ! [[ -e '/dev/null' ]]; then
+  echo 'devnull: ERROR `/dev/null` does not exist' >&2
+  exit 1
+fi
+
+cat <&0 > /dev/null

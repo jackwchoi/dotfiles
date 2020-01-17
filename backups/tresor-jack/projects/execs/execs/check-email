@@ -1,0 +1,6 @@
+#!/usr/bin/env osascript
+
+tell application "Mail"
+    activate
+    check for new mail
+end tell

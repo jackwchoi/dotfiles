@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+tmux list-sessions |
+  rg -o '^\d+' |
+  parallel "tmux kill-session -t {}"

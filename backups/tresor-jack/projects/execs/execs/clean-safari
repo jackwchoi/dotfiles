@@ -1,0 +1,40 @@
+#!/usr/bin/env osascript
+
+tell application "Safari" to activate
+
+tell application "System Events"
+    repeat 2 times
+
+        -- empty caches
+        try
+            click menu item "Empty Caches" of menu 1 of menu bar item "Develop" of menu bar 1 of process Safari
+        end try
+
+        -- clear history
+        try
+            click menu item "Clear History…" of menu 1 of menu bar item "History" of menu bar 1 of process "Safari"
+            try
+                click button "Clear History" of front window of process "Safari"
+            on error
+                try
+                    click button "Clear History" of sheet 1 of window 1 of process "Safari"
+                end try
+            end try
+        end try
+
+        -- clear downloads history
+        try
+            click menu item "Show Downloads" of menu 1 of menu bar item "View" of menu bar 1 of process "Safari"
+            try
+                click button "Clear" of front window of process "Safari"
+            on error
+                try
+                    click button "Clear History" of sheet 1 of window 1 of process "Safari"
+                end try
+            end try
+        end try
+
+    end repeat
+end tell
+
+tell application "Safari" to quit

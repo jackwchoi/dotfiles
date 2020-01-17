@@ -1,0 +1,128 @@
+#!/usr/bin/env bash
+
+# String -> String -> String
+# $1 -> name of source
+# $2 -> extension to use
+#
+# &1 -> name of the compressed archive to be created
+function get-archive-name {
+  declare -r SOURCE="$1"
+  declare -r EXTENSION="$2"
+
+  # replace contiguous whitespace with a single underscore
+  declare -r WS_REPLACED=$(sed -E 's/\s+/_/g' <<< "$SOURCE")
+  # remove all trailing forward slashes
+  declare -r TRAILING_SLASHES_REMOVED=$(sed -E 's/\/+$//' <<< "$WS_REPLACED")
+  echo "$TRAILING_SLASHES_REMOVED.tar.$EXTENSION"
+}
+
+# String -> usize
+# $1 -> filepath
+function bytes {
+  du --bytes --summarize "$1" |
+    rg -o '^\d+'  # extract just the numbers
+}
+
+# f64 -> String -> f64 -> usize -> f64
+# $1 -> lhs
+# $2 -> op
+# $3 -> rhs
+# $4 -> num precision
+function arith {
+  bc <<< "scale=$4; $1 $2 $3"
+}
+
+# String -> String -> String -> ()
+# $1 -> source to compress
+# $2 -> compresssor to use
+# $@ -> args to pass to compressor
+# &1 -> compressed binary data
+function compress {
+  declare -r SOURCE="$1"
+  declare -r COMPRESSOR="$2"
+  shift 2
+  declare -r COMPRESSOR_ARGS=$@
+
+  gtar -cf - "$SOURCE" |
+    "$COMPRESSOR" $COMPRESSOR_ARGS
+}
+
+function b-to-mb {
+  arith "$1" '/' 1000000 4
+}
+
+# String -> String -> String -> ()
+# $1 -> source to compress
+# $2 -> extension to use
+# $3 -> compresssor to use
+# $@ -> args to pass to compressor
+function handle {
+  declare -r SOURCE="$1"
+  declare -r EXTENSION="$2"
+  declare -r COMPRESSOR="$3"
+  shift 3
+  declare -r COMPRESSOR_ARGS=$@
+  
+  declare -r TARGET=$(get-archive-name "$SOURCE" "$EXTENSION")
+
+  if ! [[ -e "$SOURCE" ]]; then
+    echo "ERROR: '$SOURCE' does not exist..."
+    return 1
+  elif [[ -e "$TARGET" ]]; then
+    echo "ERROR: '$TARGET' exists..."
+    return 1
+  fi
+  
+  compress "$SOURCE" "$COMPRESSOR" "$COMPRESSOR_ARGS" > "$TARGET"
+  
+  declare -r SIZE_SOURCE_B=$(bytes "$SOURCE")
+  declare -r SIZE_TARGET_B=$(bytes "$TARGET")
+  declare -r SIZE_SOURCE_MB=$(b-to-mb "$(bytes "$SOURCE")")
+  declare -r SIZE_TARGET_MB=$(b-to-mb "$(bytes "$TARGET")")
+  # size difference in megabytes
+  declare -r SIZE_DIFF=$(b-to-mb "$(arith "$SIZE_SOURCE_B" '-' "$SIZE_TARGET_B" 1)")
+  declare -r RATIO=$(arith "$SIZE_TARGET_B" "/" "$SIZE_SOURCE_B" 4)
+
+  echo "$COMPRESSOR $COMPRESSOR_ARGS '$SOURCE'; $SIZE_SOURCE_MB MB -> $SIZE_TARGET_MB MB = $SIZE_DIFF MB = $RATIO %"
+}
+
+# ritual for getopt
+# parse options and args
+declare -r SHORT_OPS='gzxfb'
+declare -r LONG_OPS='gzip,zstd,xz,fast,best'
+declare -r OPTS=$(getopt --unquoted --options $SHORT_OPS --longoptions $LONG_OPS -- "$@") PARSED=$?
+# exit if parsing failed
+[[ "$PARSED" != 0 ]] && exit 1
+# set as $@
+set -- $OPTS
+
+COMPRESSOR='pzstd'  # compressor to use, usually one of `pzstd`, `pigz`, `pixz`
+EXTENSION='zst'     # file extension s.t. compressing "$f" results in "$f.tar.$EXTENSION"
+FAST_MODE=true      # fastest compression, worst compression ratio
+while true; do
+  case "$1" in
+    --xz )   COMPRESSOR='pixz';  EXTENSION='xz';  shift;;
+    --gzip ) COMPRESSOR='pigz';  EXTENSION='gz';  shift;;
+    --zstd ) COMPRESSOR='pzstd'; EXTENSION='zst'; shift;;
+    --fast ) FAST_MODE=true;  shift;;
+    --best ) FAST_MODE=false; shift;;
+    -- ) shift; break;;
+    * ) shift;
+  esac
+done
+
+export -f get-archive-name compress bytes arith handle b-to-mb
+
+declare -r COMPRESSOR_ARGS=$(
+  case "$COMPRESSOR" in
+    pigz )  "$FAST_MODE" && echo --fast - || echo '-9' ;;
+    pixz )  "$FAST_MODE" && echo -1       || echo '-9' ;;
+    pzstd ) "$FAST_MODE" && echo -1 -     || echo '-19' ;;
+  esac
+)
+
+# for every input arg, 
+for INPUT in "$@"; do
+  echo "$INPUT"
+done |
+  parallel "handle {} $EXTENSION $COMPRESSOR $COMPRESSOR_ARGS"

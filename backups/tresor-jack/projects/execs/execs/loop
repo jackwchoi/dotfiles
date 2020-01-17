@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+if ! rg -q '^\d+(s|m|h|d)$' <<< "$1"; then
+  echo "$0: \$1 should be time"
+  exit 1
+fi
+
+# time to sleep
+declare -r TTS="$1"
+shift 1
+
+while true; do
+  sleep "$TTS" &&
+    clear &&
+    "$@"
+done

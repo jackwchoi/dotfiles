@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+# see if a temp dir already exists in the current dir
+OUTDIR=$(find . -maxdepth 1 -type d | rg 'tmp\..+\.latexmk_out$')
+
+# rg fail implies that it does not exist yet, so create one and save dirname
+[[ $? -eq 0 ]] ||
+  OUTDIR="$(mktemp --directory --suffix='.latexmk_out' --tmpdir=.)"
+
+function finish {
+  OUT=$(ls | rg 'tmp\.[a-zA-Z\d]+\.latexmk_out')
+  rm -rf "$OUT"
+}
+trap finish EXIT
+
+function run {
+  echo
+  date
+  latexmk --pdfxe --outdir="$OUTDIR" "$1" <<< "$1"
+  cp "$OUTDIR/"*.pdf ./
+}
+
+run "$1"
+fswatch --extended --exclude '.*' --include '\.tex$' . |
+  while read f; do
+    run "$1"
+  done

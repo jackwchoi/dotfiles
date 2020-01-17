@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+declare -r UPTIME=$(uptime | sed -E 's/\s+/ /g' | sed 's/,//g')
+
+declare -r LOAD=$(rg -o '\d[\d\. ]+$' <<< $UPTIME)
+
+#declare -r TIME=$(
+#  rg -o 'up.+user' <<< $UPTIME |
+#  sed -E 's/ [0-9]+ user//'
+#)
+
+echo "$LOAD $(hostname)"

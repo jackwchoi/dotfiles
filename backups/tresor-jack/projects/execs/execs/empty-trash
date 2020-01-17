@@ -1,0 +1,5 @@
+#!/usr/bin/env osascript
+
+try
+    tell application "Finder" to empty the trash
+end try

@@ -1,0 +1,204 @@
+#!/usr/bin/env python3
+from datetime import datetime
+from datetime import timedelta
+from socket import timeout
+import json
+import os
+import re
+import shutil
+import sys
+import time
+import urllib.request
+
+DIMS = shutil.get_terminal_size((80, 20))
+ROWS = DIMS.lines
+COLS = DIMS.columns
+
+CAL_ROWS = 9
+TIME_ROWS = 0
+BETWEEN = 1
+LAST = 1
+JWEATHER_ETC = 6
+PROMPT = 2
+AVAILABLE_ROWS = ROWS - CAL_ROWS - TIME_ROWS - BETWEEN - LAST - JWEATHER_ETC - PROMPT
+
+def get_data(path):
+    with open(path, 'r') as f:
+        return json.load(f)
+
+def pull():
+    latitude = '42.3592'
+    longitude = '-71.0935'
+    url = 'https://api.darksky.net/forecast/ac1775118e031786cd16781d1aa9ba41/%s,%s' % (latitude, longitude)
+    return urllib.request.urlopen(url, timeout=2).read().decode('utf-8')
+
+def form_cache(data):
+    keys = (
+        'time', 'summary', 'precipProbability', 'precipType',
+        'temperature', 'humidity', 'temperatureHigh', 'temperatureLow'
+    )
+
+    currently = data['currently']
+    hourly = data['hourly']['data']
+    daily = data['daily']['data']
+
+    extractor = lambda d: { k: d[k] for k in d.keys() if k in keys }
+
+    return {
+        'currently': extractor(currently),
+        'hourly': list(map(extractor, hourly)),
+        'daily': list(map(extractor, daily))
+    }
+
+def format_temp(t):
+    return '%3d%sF' % (t, u'\N{DEGREE SIGN}')
+
+def render_current(item):
+    print('currently')
+    precip_type = item['precipType'] if 'precipType' in item else None
+    time = localize(item['time'])
+    summary = item['summary']
+    temp = format_temp(item['temperature'])
+    precip = '%d%%' % (item['precipProbability'] * 100)
+    info = '%s => %s, %s' % (time, temp, summary)
+    if precip_type:
+        info += ', %s %s' % (precip, precip_type)
+    print(info)
+
+def render_hour(item):
+    time = localize(item['time'])
+    time = re.findall(r'\d+:\d+', time)[0]
+    precip_type = item['precipType'] if 'precipType' in item else None
+    summary = item['summary']
+    temp = format_temp(item['temperature'])
+    precip = '%3d%%' % (item['precipProbability'] * 100)
+    temp_info = '%s => %s' % (time, temp)
+    precip_info = ' \033[34m%s %s\033[0m' % (precip, precip_type)
+    # precip_info = ' %s %s' % (precip, precip_type)
+
+    len_sample = 24
+    info = (temp_info + ' ' * (len_sample - len(temp_info))) if not precip_type else temp_info + precip_info
+
+    return info
+
+def render_hours(data):
+    print('\nhourly')
+
+    num_to_print = min(24, len(data))
+
+    sample = render_hour(data[0])
+
+    ROWS_TO_PRINT = AVAILABLE_ROWS//2
+    COLS_TO_PRINT = COLS // 24 - 1
+
+    if COLS_TO_PRINT*24 + (COLS_TO_PRINT-1)*8 > COLS:
+        COLS_TO_PRINT -= 1
+
+    rows_to_items = {}
+    for i in range(num_to_print):
+        row = i % ROWS_TO_PRINT
+        col = i % COLS_TO_PRINT
+        if row not in rows_to_items:
+            rows_to_items[row] = []
+
+        rows_to_items[row].append(render_hour(data[i]))
+
+    for _, items in rows_to_items.items():
+        row = '        '.join(items[:COLS_TO_PRINT])
+        print(row)
+
+def render_days(days):
+    print('\ndaily')
+    temps = set( d['temperatureLow'] for d in days[:AVAILABLE_ROWS//2] ) | \
+            set( d['temperatureHigh'] for d in days[:AVAILABLE_ROWS//2] )
+
+    min_temp = min(temps)
+    max_temp = max(temps)
+
+    cols = COLS  # total - ' ' each side - widths of two temp str
+    width = max_temp - min_temp
+    normalize = lambda t: (t - min_temp) / width
+
+    for item in days[:AVAILABLE_ROWS//2]:
+        local_time = localize(item['time'], offset=timedelta(days=1))
+        time = re.findall(r'^\w+ \w+ \d{2}', local_time)[0]
+
+        precip_type = item['precipType'] if 'precipType' in item else None
+        precip = '%3d%%' % (item['precipProbability'] * 100)
+
+        temp_low = item['temperatureLow']
+        temp_high = item['temperatureHigh']
+        basic = '%s => %s %s' % (time, precip, precip_type)
+        available_cols = cols - len(basic) - 10
+        basic = '%s => \033[34m%s %s\033[0m' % (time, precip, precip_type)
+
+        low_norm = normalize(temp_low)
+        high_norm = normalize(temp_high)
+
+        low_position = int(available_cols * low_norm)
+        high_position = int(available_cols * high_norm)
+
+        middle_padding_length = int(high_position - low_position - 5) - 1
+
+        temp_low = format_temp(temp_low)
+        temp_high = format_temp(temp_high)
+        graph = '%s\033[34m%s\033[0m %s\033[31m%s\033[0m' % (
+            ' ' * low_position,
+            temp_low,
+            '-' * middle_padding_length,
+            temp_high
+        )
+
+        print('%s %s' % (basic, graph))
+
+def localize(timestamp, offset=None):
+    ''' utc timestamp '''
+    utc_time = datetime.utcfromtimestamp(timestamp)
+    est_offset = timedelta(hours=-5)
+    est_time = utc_time + est_offset
+    if offset:
+        est_time += offset
+    return est_time.strftime('%a %b %d %H:%M:%S EST %Y')
+
+def current_timestamp():
+    return int(datetime.timestamp(datetime.now()))
+
+def main():
+    if AVAILABLE_ROWS // 2 == 0:
+        sys.exit()
+
+    HOME = os.path.expanduser('~')
+    CACHE_LIFE = 60*60*24 / 1000
+    CURRENT = current_timestamp()
+
+    jweather_files = [ f for f in os.listdir(HOME) if re.search(r'^\d+\.jweather$', f) ]
+    RENEW = True
+    assert len(jweather_files) <= 1
+    if len(jweather_files) == 1:
+        cache_time = int(re.findall(r'\d+', jweather_files[0])[0])
+        if CURRENT - cache_time > CACHE_LIFE:
+            cache = '%s/%s' % (HOME, jweather_files[0])
+            os.remove(cache)
+        else:
+            data = get_data('%s/%d.jweather' % (HOME, cache_time))
+            RENEW = False
+
+    if RENEW:
+        cache = '%s/%d.jweather' % (HOME, CURRENT)
+        try:
+            data = form_cache(json.loads(pull()))
+        except timeout:
+            sys.exit(1)
+
+        with open(cache, 'w') as f:
+            json.dump(data, f, indent=2)
+
+    # render_current(data['currently'])
+    render_hours(data['hourly'])
+    render_days(data['daily'])
+
+if __name__ == '__main__':
+    try:
+        main()
+    except:
+        pass

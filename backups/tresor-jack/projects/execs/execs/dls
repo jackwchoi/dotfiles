@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+exa --all |
+  xargs --delimiter "\n" exa --all --classify

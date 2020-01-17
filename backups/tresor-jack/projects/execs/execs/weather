@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+open 'https://darksky.net/forecast/43.0288,-76.0059/us12/en'
+open "https://darksky.net/details/43.0288,-76.0059/$(date +'%m-%d-%y')/us12/en"
+
+open 'https://darksky.net/forecast/42.3591,-71.0933/us12/en'
+open "https://darksky.net/details/42.3591,-71.0933/$(date +'%m-%d-%y')/us12/en"

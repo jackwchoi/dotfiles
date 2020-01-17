@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+chrome-cli open "chrome://settings/clearBrowserData" -i &&
+  chrome-cli close -t 2

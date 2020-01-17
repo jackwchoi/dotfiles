@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-declare -r ROOT=$(dirname "$(realpath $0)")
+declare -r ROOT=$(git rev-parse --show-toplevel)
 declare -r BACKUPS="$ROOT/backups"
 declare -r MANUAL_BACKUPS="$ROOT/manual-backups"
 
@@ -35,7 +35,7 @@ cargo install --list |
   rg -o '^\S+' > "$MANUAL_BACKUPS/cargo_packages.txt" &
 
 green 'rsyncing the rest...'
-jq '.unencrypted[]' --raw-output < 'config.json' |  # print array elements raw
+jq '.unencrypted[]' --raw-output < "$ROOT/config.json" |  # print array elements raw
   sed --regexp-extended 's/\/+$//' |                # remove trailing slashes
   parallel 'jsync {}'
 

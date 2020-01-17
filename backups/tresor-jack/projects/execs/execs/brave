@@ -1,0 +1,29 @@
+#!/usr/bin/env osascript
+
+try
+  tell application "Brave Browser" to activate
+on error
+  try
+    tell application "Brave Browser" to activate
+  end try
+end try
+
+tell application "System Events"
+
+  try
+    click menu item "Close Window" of menu 1 of menu bar item "File" of menu bar 1 of process "Brave"
+  on error
+    try
+      click menu item "Close Window" of menu 1 of menu bar item "File" of menu bar 1 of process "Brave"
+    end try
+  end try
+
+  try
+    click menu item "New Private Window" of menu 1 of menu bar item "File" of menu bar 1 of process "Brave"
+  on error
+    try
+      click menu item "New Private Window" of menu 1 of menu bar item "File" of menu bar 1 of process "Brave"
+    end try
+  end try
+
+end tell
