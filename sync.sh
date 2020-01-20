@@ -24,7 +24,10 @@ rm -rf "$BACKUPS/"
 mkdir  "$BACKUPS/"
 
 green 'saving brew configs... &'
-brew bundle dump --force --file="$MANUAL_BACKUPS/Brewfile" &
+(
+  brew bundle dump --describe --force --file="$MANUAL_BACKUPS/Brewfile"
+  brew bundle cleanup --force --file="$MANUAL_BACKUPS/Brewfile"
+) & 
 
 green 'saving atom configs and packages... &'
 apm list --installed --bare |
