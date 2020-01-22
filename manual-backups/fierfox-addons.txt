@@ -1,0 +1,6 @@
+ClearURLs
+HTTPS Everywhere
+NoScript
+Site Bleacher
+uBlock Origin
+uMatrix

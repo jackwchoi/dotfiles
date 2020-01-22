@@ -12,22 +12,21 @@ function green {
 # $1 -> some filepath such that "$HOME/$1" exists
 # recursively copy "$HOME/$1" to "$BACKUPS/$1"
 function jsync {
-  declare -r DIRNAME=$(dirname "$1")
-  mkdir --parents "$BACKUPS/$DIRNAME" &&
-    rsync --archive --human-readable "$HOME/$1" "$BACKUPS/$1"
+  declare -r FSTRIP=$(sed -E 's/^\/+//' <<< "$1")
+  mkdir --parents "$(dirname "$BACKUPS/$FSTRIP")" &&
+    rsync --archive --compress --human-readable "/$FSTRIP" "$BACKUPS/$FSTRIP"
 }
 
-export ROOT BACKUPS MANUAL_BACKUPS
+export ROOT BACKUPS BACKUPS
 export -f jsync
 
-rm -rf "$BACKUPS/"
-mkdir  "$BACKUPS/"
+"$ROOT/lambda.sh" |
+  parallel 'jsync {}'
+
+mkdir -p "$BACKUPS/"
 
 green 'saving brew configs... &'
-(
-  brew bundle dump --describe --force --file="$MANUAL_BACKUPS/Brewfile"
-  brew bundle cleanup --force --file="$MANUAL_BACKUPS/Brewfile"
-) & 
+brew bundle dump --describe --force --file="$MANUAL_BACKUPS/Brewfile" &
 
 green 'saving atom configs and packages... &'
 apm list --installed --bare |
@@ -36,10 +35,5 @@ apm list --installed --bare |
 green 'saving cargo packages...& '
 cargo install --list |
   rg -o '^\S+' > "$MANUAL_BACKUPS/cargo_packages.txt" &
-
-green 'rsyncing the rest...'
-jq '.unencrypted[]' --raw-output < "$ROOT/config.json" |  # print array elements raw
-  sed --regexp-extended 's/\/+$//' |                # remove trailing slashes
-  parallel 'jsync {}'
 
 wait

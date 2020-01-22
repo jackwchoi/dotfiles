@@ -30,6 +30,7 @@
     invisibles: {}
     preferredLineLength: 100
     showIndentGuide: true
+    tabLength: 4
     tabType: "soft"
   "exception-reporting":
     userId: "b67e2ecb-9099-42e4-ba57-d2c4665a9e3b"
