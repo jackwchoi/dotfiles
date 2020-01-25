@@ -20,8 +20,9 @@ function jsync {
 export ROOT BACKUPS BACKUPS
 export -f jsync
 
+green 'saving custom files... &'
 "$ROOT/lambda.sh" |
-  parallel 'jsync {}'
+  parallel 'jsync {}' &
 
 mkdir -p "$BACKUPS/"
 

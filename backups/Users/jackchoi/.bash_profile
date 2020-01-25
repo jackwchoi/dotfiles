@@ -74,6 +74,7 @@ alias cb='cargo build'
 alias chrome='chrome-cli'
 alias ciaa='cargo install-update --all'
 alias clam='clamdscan --fdpass --infected --multiscan --verbose'
+alias clean="clear && printf '\033[3J' && ~/run.sh -c && history -c"
 alias clear="clear && printf '\033[3J'"
 alias cr='cargo run'
 alias diff='colordiff'
