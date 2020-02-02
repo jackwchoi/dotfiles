@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
-# split into 4GB chunks
-declare -r CHUNK_SIZE=$(( 2 * 1000 * 1000 * 1000 ))
+# input file size in bytes
+declare -r INPUT_SIZE=$(du -b "$1" | rg -o '^\d+')
 
-split --bytes=$CHUNK_SIZE "$1" "$1."
+if [[ "$INPUT_SIZE" -gt $(( 8 * 1000 * 1000 * 1000 )) ]]; then
+  # split into 2GB chunks
+  declare -r CHUNK_SIZE=$(( 2 * 1000 * 1000 * 1000 ))
+  split --bytes=$CHUNK_SIZE "$1" "$1."
+else 
+  split --number=4 "$1" "$1."
+fi

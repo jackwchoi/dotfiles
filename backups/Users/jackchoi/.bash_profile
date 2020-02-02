@@ -56,8 +56,8 @@ export MANPATH="/usr/local/opt/make/libexec/gnuman:$MANPATH"
 # other env vars
 export BAT_PAGER=''  # no pager by default
 export BAT_STYLE='full'
-#export BAT_THEME='OneHalfLight'
-export BAT_THEME='OneHalfDark'
+export BAT_THEME='OneHalfLight'
+#export BAT_THEME='OneHalfDark'
 export FZF_DEFAULT_COMMAND='\fd .'
 #null false true numbers strings arrays objects
 export JQ_COLORS='0;31:0;36:0;36:0;33:0;32:0;37:0;37'
@@ -89,7 +89,7 @@ alias gs='git status'
 alias gss='git status --short'
 alias htop='htop --delay=20'
 alias jrepl='julia -ie "using LinearAlgebra; using RowEchelon"'
-alias les='\less --long-prompt --ignore-case --shift .0625 --status-column --RAW-CONTROL-CHARS +Gg'
+alias les='\less --long-prompt --ignore-case --shift .0625 --status-column --RAW-CONTROL-CHARS'
 alias less='les --chop-long-lines'
 #alias ls='ls --almost-all --classify --color=auto --group-directories-first'
 alias ls='exa --all --classify'
@@ -132,3 +132,5 @@ date
 if [[ "$TERM_PROGRAM" == 'Apple_Terminal' ]]; then
   eval "$(starship init bash)"
 fi
+
+neofetch --shell_path on --memory_display infobar

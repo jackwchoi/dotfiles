@@ -152,7 +152,6 @@ if $START_FULL; then
   necho 'Refreshing Calendar...'
   refresh-calendar &> /dev/null &
   
-  brave
   weather
 
   open_apps 'ProtonVPN' 'Tresorit'

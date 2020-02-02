@@ -20,8 +20,6 @@ brew "sqlite"
 brew "xz"
 # Interpreted, interactive, object-oriented programming language
 brew "python", link: false
-# Control Google Chrome from the command-line
-brew "chrome-cli"
 # Anti-virus software
 brew "clamav"
 # Formatting tools for C, C++, Obj-C, Java, JavaScript, TypeScript
@@ -40,8 +38,6 @@ brew "exa"
 brew "fd"
 # Play, record, convert, and stream audio and video
 brew "ffmpeg"
-# Fully featured Firefox Send client
-brew "ffsend"
 # Collection of GNU find, xargs, and locate
 brew "findutils"
 # Monitor a directory for changes and run a shell command
@@ -100,6 +96,8 @@ brew "mdbook"
 brew "mdcat"
 # NCurses Disk Usage
 brew "ncdu"
+# Fast, highly customisable system info script
+brew "neofetch"
 # Realtime console network usage monitor
 brew "nload"
 # Multithreaded PNG optimizer written in Rust
@@ -174,6 +172,7 @@ cask "font-fira-code"
 cask "font-inconsolata"
 cask "java"
 cask "mactex-no-gui"
+cask "microsoft-word"
 cask "phantomjs"
 cask "protonvpn"
 cask "signal"
