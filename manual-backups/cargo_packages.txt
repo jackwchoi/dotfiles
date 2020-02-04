@@ -3,6 +3,5 @@ cargo-watch
 fdup
 mdtoc
 rmf
-tally
 termimage
 trim

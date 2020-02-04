@@ -56,42 +56,36 @@ export MANPATH="/usr/local/opt/make/libexec/gnuman:$MANPATH"
 # other env vars
 export BAT_PAGER=''  # no pager by default
 export BAT_STYLE='full'
-export BAT_THEME='OneHalfLight'
-#export BAT_THEME='OneHalfDark'
+#export BAT_THEME='OneHalfLight'
+export BAT_THEME='OneHalfDark'
 export FZF_DEFAULT_COMMAND='\fd .'
 #null false true numbers strings arrays objects
 export JQ_COLORS='0;31:0;36:0;36:0;33:0;32:0;37:0;37'
 export TERM='xterm-256color'
 
 # default options
+#alias tree='tree -aCF'  # colorize output
 alias ag="ag --case-sensitive --color-line-number=$GREY --color-match=$RED --color-path=$CYAN --hidden --file-search-regex"
 alias athena='ssh athena.dialup.mit.edu -l' # username
 alias bat='bat --color always --decorations always --map-syntax h:cpp --map-syntax hpp:cpp'
 alias batp='bat --style plain'
 alias broot='broot --gitignore no --hidden'
 alias c='cargo'
-alias cb='cargo build'
 alias chrome='chrome-cli'
 alias ciaa='cargo install-update --all'
 alias clam='clamdscan --fdpass --infected --multiscan --verbose'
 alias clean="clear && printf '\033[3J' && ~/run.sh -c && history -c"
 alias clear="clear && printf '\033[3J'"
-alias cr='cargo run'
-alias diff='colordiff'
-alias du='du --human-readable --summarize --total'
 alias fd='fd --hidden --no-ignore'
 alias fzf='fzf --border --color=dark,hl:9,hl+:9,bg+:-1 --inline-info'
 alias g='git'
 alias grep='grep --perl-regexp --color=auto'
-alias gb='git branch'
-alias gc='git checkout'
 alias gs='git status'
 alias gss='git status --short'
 alias htop='htop --delay=20'
 alias jrepl='julia -ie "using LinearAlgebra; using RowEchelon"'
-alias les='\less --long-prompt --ignore-case --shift .0625 --status-column --RAW-CONTROL-CHARS'
+alias les='less --long-prompt --ignore-case --shift .0625 --status-column --RAW-CONTROL-CHARS'
 alias less='les --chop-long-lines'
-#alias ls='ls --almost-all --classify --color=auto --group-directories-first'
 alias ls='exa --all --classify'
 alias mkdir='mkdir --parents --verbose'
 alias mv='mv --interactive --verbose'
@@ -109,7 +103,6 @@ alias sed='sed --regexp-extended'
 alias sk='sk --inline-info --multi --prompt "$ " --color matched:1,matched_bg:-1,info:-1,current_bg:239,current_match:1,current_match_bg:239,prompt:4,cursor:1'
 alias speedtest='speedtest --secure --bytes --simple'
 alias ti='termimage --ansi truecolor'
-#alias tree='tree -aCF'  # colorize output
 alias tree='exa --all --classify --tree'
 alias which='alias | gwhich --read-alias --show-dot --show-tilde'
 alias wrf='while read f; do'

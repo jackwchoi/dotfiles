@@ -5,7 +5,7 @@
 
 # parse options and args
 declare -r SHORT_OPS='cfqrsuC'
-declare -r LONG_OPS='clean,full-start,quick-start,restart,shutdown,quick-update,full-clean'
+declare -r LONG_OPS='clean,full-start,quick-start,restart,shutdown,update,full-clean'
 declare -r OPTS=$(getopt --unquoted --options $SHORT_OPS --longoptions $LONG_OPS -- "$@") PARSED=$?
 
 # exit if parsing failed
@@ -29,7 +29,7 @@ while true; do
     -q | --quick-start )  START_QUICK=true;  shift;;
     -r | --restart )      RESTART=true;      shift;;
     -s | --shutdown )     SHUTDOWN=true;     shift;;
-    -u | --quick-update ) UPDATE_QUICK=true; shift;;
+    -u | --update )       UPDATE_QUICK=true; shift;;
     * )  # specifically "--"
       shift; break;;
   esac
@@ -41,12 +41,12 @@ function necho {
 }
 
 # rewrite this using rust regexset
-function clean_quick {
+function clean_quick { 
   necho 'Emptying trash...'
   empty-trash &
-
+  
   necho 'Cleaning files...'
-  declare -r REPL='(bash|julia|node_repl|scala|python|sqlite)_(history|sessions)'
+  declare -r REPL='(bash|julia|node_repl|scala|python|sqlite|zsh)_(history|sessions)'
   declare -r MISC='(cups|rnd|viminfo|DS_Store|putty|dbshell|history|aspell\.en\.(prepl|pws)|ipynb_checkpoints|grip|wget-hsts|ipython|lesshst|matplotlib|oracle_jre_usage|pdfbox\.cache|plotly|tooling|swp)'
   {
     find ~/ -maxdepth 1 
@@ -80,9 +80,6 @@ function clean_full {
   clean-safari
   clean-safari
 
-  necho 'Cleaning Chrome...'
-  open-chrome &> /dev/null &
-
   clean_quick &
   wait
 
@@ -91,7 +88,7 @@ function clean_full {
 
   necho 'Uninstalling HomeBrew formula not in Brewfile...'
   brew bundle cleanup --force --file="$BREWFILE"
-
+  
   necho 'Removing HomeBrew caches and old versions...'
   brew cleanup
 }
