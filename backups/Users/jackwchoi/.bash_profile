@@ -2,6 +2,7 @@
 export PATH="$(getconf PATH)"  # prevents `r` from duplicating $PATH
 export PATH="/Library/TeX/texbin:$PATH"
 export PATH="/usr/local/sbin:$PATH"  # for clamd
+export PATH="/usr/local/Caskroom/miniconda/base/bin:$PATH"
 # use gnu bin without the g-prefix
 export PATH="/usr/local/Cellar/gnu-which/libexec/gnubin:$PATH"
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
@@ -90,7 +91,7 @@ alias ls='exa --all --classify'
 alias mkdir='mkdir --parents --verbose'
 alias mv='mv --interactive --verbose'
 alias ncdu='ncdu -rr --color dark'
-alias nload='nload devices en7 -u H'
+alias nload='nload devices en5 -u H'
 alias oxipng='oxipng --opt 4 --interlace 1 --strip safe'
 alias p='parallel'
 alias pip='pip3'
@@ -110,9 +111,8 @@ alias xargs='xargs --delimiter "\n"'
 alias youtube-dl='youtube-dl --no-cache-dir'
 
 # for easy cd'ing
-alias clas="$WORKSPACE/mit/senior/fall"
+alias clas="$WORKSPACE/mit/senior/spring"
 alias proj="$WORKSPACE/projects"
-alias 035="$WORKSPACE/mit/senior/fall/6.035/fa19"
 alias tmp="$WORKSPACE/temps"
 
 # shell options
@@ -120,6 +120,8 @@ shopt -s autocd cdspell globstar gnu_errfmt
 
 cal -3
 date
+
+export SHELL="/usr/local/bin/bash"
 
 # starship on, iff terminal because alacritty doesn't support ligatures
 if [[ "$TERM_PROGRAM" == 'Apple_Terminal' ]]; then
