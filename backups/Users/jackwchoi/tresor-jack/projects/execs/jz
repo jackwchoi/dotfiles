@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# USAGE
+#   jz [ratio] [type] <filename>
+#   where 
+#     ratio is one of --best, --fast
+#     type is one of --gz --xz --zst --zip
 
 # String -> String -> String
 # $1 -> name of source
@@ -13,7 +18,11 @@ function get-archive-name {
   declare -r WS_REPLACED=$(sed -E 's/\s+/_/g' <<< "$SOURCE")
   # remove all trailing forward slashes
   declare -r TRAILING_SLASHES_REMOVED=$(sed -E 's/\/+$//' <<< "$WS_REPLACED")
-  echo "$TRAILING_SLASHES_REMOVED.tar.$EXTENSION"
+  if rg -q '^zip$' <<< "$EXTENSION"; then
+    echo "$TRAILING_SLASHES_REMOVED.$EXTENSION"
+  else
+    echo "$TRAILING_SLASHES_REMOVED.tar.$EXTENSION"
+  fi
 }
 
 # String -> usize
@@ -43,8 +52,12 @@ function compress {
   shift 2
   declare -r COMPRESSOR_ARGS=$@
 
-  gtar -cf - "$SOURCE" |
-    "$COMPRESSOR" $COMPRESSOR_ARGS
+  if rg -q '^zip$' <<< "$COMPRESSOR"; then
+    "$COMPRESSOR" $COMPRESSOR_ARGS "$SOURCE"
+  else
+    gtar -cf - "$SOURCE" |
+      "$COMPRESSOR" $COMPRESSOR_ARGS
+  fi
 }
 
 function b-to-mb {
@@ -88,8 +101,8 @@ function handle {
 
 # ritual for getopt
 # parse options and args
-declare -r SHORT_OPS='gzxfb'
-declare -r LONG_OPS='gzip,zstd,xz,fast,best'
+declare -r SHORT_OPS='gxpzfb'
+declare -r LONG_OPS='gz,xz,zip,zst,fast,best'
 declare -r OPTS=$(getopt --unquoted --options $SHORT_OPS --longoptions $LONG_OPS -- "$@") PARSED=$?
 # exit if parsing failed
 [[ "$PARSED" != 0 ]] && exit 1
@@ -101,9 +114,10 @@ EXTENSION='zst'     # file extension s.t. compressing "$f" results in "$f.tar.$E
 FAST_MODE=true      # fastest compression, worst compression ratio
 while true; do
   case "$1" in
+    --gz )   COMPRESSOR='pigz';  EXTENSION='gz';  shift;;
     --xz )   COMPRESSOR='pixz';  EXTENSION='xz';  shift;;
-    --gzip ) COMPRESSOR='pigz';  EXTENSION='gz';  shift;;
-    --zstd ) COMPRESSOR='pzstd'; EXTENSION='zst'; shift;;
+    --zip )  COMPRESSOR='zip';   EXTENSION='zip'; shift;;
+    --zst )  COMPRESSOR='pzstd'; EXTENSION='zst'; shift;;
     --fast ) FAST_MODE=true;  shift;;
     --best ) FAST_MODE=false; shift;;
     -- ) shift; break;;
@@ -115,9 +129,10 @@ export -f get-archive-name compress bytes arith handle b-to-mb
 
 declare -r COMPRESSOR_ARGS=$(
   case "$COMPRESSOR" in
-    pigz )  "$FAST_MODE" && echo --fast - || echo '-9' ;;
-    pixz )  "$FAST_MODE" && echo -1       || echo '-9' ;;
-    pzstd ) "$FAST_MODE" && echo -1 -     || echo '-19' ;;
+    pigz )  "$FAST_MODE" && echo '--fast -' || echo '-9 -' ;;
+    pixz )  "$FAST_MODE" && echo '-1'       || echo '-9 -' ;;
+    pzstd ) "$FAST_MODE" && echo '-1 -'     || echo '-19 -' ;;
+    zip )   "$FAST_MODE" && echo '-1 -'     || echo '-9 -' ;;
   esac
 )
 
