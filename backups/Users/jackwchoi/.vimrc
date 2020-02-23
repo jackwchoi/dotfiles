@@ -1,9 +1,11 @@
 " Vundle setup
 set rtp+=~/.vim/bundle/Vundle.vim " set the runtime path to include Vundle and initialize
 call vundle#begin()
+Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'sonph/onehalf', {'rtp': 'vim/'}
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+Plugin 'whonore/coqtail'
 call vundle#end()
 
 " vim-plug setup
@@ -62,6 +64,13 @@ set softtabstop=2
 set tabstop=2
 set shiftwidth=2
 set expandtab
+
+" cpp-enhanced-highlight
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_decl_highlight = 1
+let g:cpp_posix_standard = 1
+let g:cpp_experimental_template_highlight = 1
 
 " keep this distance from top/bottom
 set so=8

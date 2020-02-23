@@ -33,8 +33,8 @@ export SCALA_HOME='/usr/local/opt/scala'
 
 # need to wrap non-printable sequences in \[ and \]
 # http://pueblo.sourceforge.net/doc/manual/ansi_color_codes.html
-SET_FG_COLOR='\[\e\033[34m'
-RESET_ALL='\[\e\033[0m'
+SET_FG_COLOR='\[\e[34m\]'
+RESET_ALL='\[\e[0m\]'
 
 # http://man7.org/linux/man-pages/man3/strftime.3.html
 export PS1="\n$SET_FG_COLOR\w\n  $ $RESET_ALL"  # simple; for tmux
