@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+open '/Applications/Firefox.app' && sleep 1s
+
 open 'https://darksky.net/forecast/43.0288,-76.0059/us12/en'
 open "https://darksky.net/details/43.0288,-76.0059/$(date +'%m-%d-%y')/us12/en"
 

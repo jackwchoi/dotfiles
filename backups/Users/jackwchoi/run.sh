@@ -20,7 +20,7 @@ RESTART=false
 SHUTDOWN=false
 START_FULL=false
 START_QUICK=false
-UPDATE_QUICK=false
+UPDATE=false
 while true; do
   case $1 in
     -c | --clean )        CLEAN=true;        shift;;
@@ -29,7 +29,7 @@ while true; do
     -q | --quick-start )  START_QUICK=true;  shift;;
     -r | --restart )      RESTART=true;      shift;;
     -s | --shutdown )     SHUTDOWN=true;     shift;;
-    -u | --update )       UPDATE_QUICK=true; shift;;
+    -u | --update )       UPDATE=true; shift;;
     * )  # specifically "--"
       shift; break;;
   esac
@@ -58,16 +58,15 @@ function clean_quick {
     rmf -t
 
   necho 'Cleaning caches...'
-  rmf -t ~/Library/Webkit/com.apple.Safari
-  rmf -t ~/Library/Caches/{Google,Homebrew,qlmanage,Firefox}
-  rmf -t ~/Library/Caches/com.apple.{Safari,Safari.SafeBrowsing,Spotlight,QuickLookDaemon,finder}
-  rmf -t ~/Library/Caches/com.google.{Keystone,Keystone.Agent,SoftwareUpdate}
-  rmf -t ~/Library/Caches/BraveSoftware
-  rmf -t ~/Library/Caches/com.brave.Browser
-
-  rmf -t ~/.tor/
-  rmf -t ~/Library/Caches/co.zeit.hyper
-  rmf -t ~/Library/Saved\ Application\ State
+  rmf -t ~/Library/Webkit/com.apple.Safari \
+         ~/Library/Caches/{Google,Homebrew,qlmanage,Firefox} \
+         ~/Library/Caches/com.apple.{Safari,Safari.SafeBrowsing,Spotlight,QuickLookDaemon,finder} \
+         ~/Library/Caches/com.google.{Keystone,Keystone.Agent,SoftwareUpdate} \
+         ~/Library/Caches/BraveSoftware \
+         ~/Library/Caches/com.brave.Browser \
+         ~/.tor/ \
+         ~/Library/Caches/co.zeit.hyper \
+         ~/Library/Saved\ Application\ State
 
   qlmanage -r
 
@@ -103,7 +102,7 @@ function open_apps {
   wait
 }
 
-function update_quick {
+function update {
 
   necho 'Updating HomeBrew...'
   brew update
@@ -159,9 +158,9 @@ elif $START_QUICK; then
   open_apps 'ProtonVPN' 'Tresorit'
 fi
 
-if $UPDATE_QUICK; then
-  necho 'Performing UPDATE_QUICK...'
-  update_quick
+if $UPDATE; then
+  necho 'Performing UPDATE...'
+  update
 fi
 
 if $SHUTDOWN; then

@@ -27,7 +27,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export WORKSPACE="$HOME/tresor-jack"
 
 # personal
-export PATH="$WORKSPACE/projects/execs:$PATH"
+export PATH="$WORKSPACE/execs:$PATH"
 
 export SCALA_HOME='/usr/local/opt/scala'
 
@@ -111,8 +111,8 @@ alias xargs='xargs --delimiter "\n"'
 alias youtube-dl='youtube-dl --no-cache-dir'
 
 # for easy cd'ing
+alias ws="$WORKSPACE"
 alias clas="$WORKSPACE/mit/senior/spring"
-alias proj="$WORKSPACE/projects"
 alias tmp="$WORKSPACE/temps"
 
 # shell options
