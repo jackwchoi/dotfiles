@@ -14,13 +14,6 @@ if ! which brew; then
 fi
 brew bundle install --file='manual-backups/Brewfile'
 
-# Vim Plug
-printf '\nChecking VimPlug...\n' >&2
-if ! [[ -f "$HOME/.vim/autoload/plug.vim" ]]; then
-  curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-fi
-
 # Vundle
 printf '\nChecking Vundle...\n' >&2
 if ! [[ -d "$HOME/.vim/bundle/Vundle.vim" ]]; then
@@ -28,7 +21,6 @@ if ! [[ -d "$HOME/.vim/bundle/Vundle.vim" ]]; then
 fi
 
 for _ in 1 2; do
-  vim +PlugInstall   +qall  # vimplug
   vim +PluginInstall +qall  # vundle
 done
 
