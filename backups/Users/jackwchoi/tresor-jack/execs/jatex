@@ -14,7 +14,7 @@ function finish {
 trap finish EXIT
 
 function run {
-  echo
+  clear
   date
   latexmk --pdfxe --outdir="$OUTDIR" "$1" <<< "$1"
   cp "$OUTDIR/"*.pdf ./
