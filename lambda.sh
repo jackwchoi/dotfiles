@@ -13,4 +13,4 @@ echo ~/.gnupg/gpg-agent.conf
 echo ~/.tmux.conf
 echo ~/.vimrc
 echo ~/run.sh
-find ~/tresor-jack/projects/execs/
+find ~/tresor-jack/execs/
