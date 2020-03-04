@@ -118,8 +118,8 @@ function update {
   apm update --no-confirm
 
   necho 'Updating Vim...'
-  vim +PlugInstall +qall
   vim +PluginInstall +qall
+  vim +PluginUpdate +qall
 
   necho 'Updating Rust...'
   rustup update
