@@ -1,17 +1,20 @@
 """"""""""""""""""""""""""""""" plugin configs
 
 " vundle
-set nocompatible    
+set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
+Plugin 'majutsushi/tagbar'
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'reedes/vim-pencil'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'junegunn/fzf', { 'dir': '~/.vim/fzf', 'do': './install --all' }
 Plugin 'junegunn/fzf.vim'
 Plugin 'let-def/vimbufsync'                " dependency for coqtail
 Plugin 'lifepillar/vim-mucomplete'         " auto-completion
 Plugin 'octol/vim-cpp-enhanced-highlight'  " better syntax highlighting for C++
+Plugin 'rust-lang/rust.vim'
 Plugin 'sonph/onehalf', {'rtp': 'vim/'}
 Plugin 'townk/vim-autoclose'
 Plugin 'vim-airline/vim-airline'
@@ -90,12 +93,13 @@ highlight CursorLineNr ctermfg=blue
 set colorcolumn=100
 highlight ColorColumn ctermbg=None ctermfg=None cterm=underline
 
-" clicking `r` runs `source ~/.vimrc`
-nnoremap r :e \| :source $MYVIMRC<CR>
-
 " file saving
 set nowritebackup
 set backupcopy=yes
+set noswapfile
+
+" etc
+set history=16
 
 " searching
 set hlsearch
@@ -112,6 +116,21 @@ set tabstop=2
 " keep this distance from top/bottom
 set so=4
 
-" auto saving
-set updatetime=1000  " trigger 2000 ms after inactivity
-autocmd CursorHold,CursorHoldI <buffer> write
+" auto commands
+set updatetime=2000  " trigger 2000 ms after inactivity
+autocmd CursorHoldI,InsertLeave <buffer> write
+
+" commands
+command Make execute "! clear && [[ -f Makefile ]] && make"
+command ClangFormat execute "! clear && clang-format -i '%:p'"
+
+" r -> refresh
+" f -> format
+" b -> build
+nnoremap W   :bd<LF>
+nnoremap b   :Make<LF>
+nnoremap f   :ClangFormat<LF>:edit!<LF><LF>
+nnoremap fzf :FZF<LF>
+nnoremap pen :PencilToggle<LF>
+nnoremap r   :source $MYVIMRC<LF>
+nnoremap t   :TagbarToggle<LF>

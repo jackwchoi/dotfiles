@@ -142,15 +142,15 @@ fi
 if $START_FULL; then
   necho 'Performing START_FULL...'
 
+  open_apps 'ProtonVPN' 'Tresorit' &
+
   necho 'Checking Emails...'
   check-email &
 
   necho 'Refreshing Calendar...'
   refresh-calendar &> /dev/null &
   
-  weather
-
-  open_apps 'ProtonVPN' 'Tresorit'
+  weather &
 
   wait
 elif $START_QUICK; then
