@@ -1,23 +1,27 @@
 """"""""""""""""""""""""""""""" plugin configs
 
 " vundle
+set nocompatible    
+filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'joshdick/onedark.vim'
 Plugin 'junegunn/fzf', { 'dir': '~/.vim/fzf', 'do': './install --all' }
 Plugin 'junegunn/fzf.vim'
-Plugin 'let-def/vimbufsync'
-Plugin 'octol/vim-cpp-enhanced-highlight'
+Plugin 'let-def/vimbufsync'                " dependency for coqtail
+Plugin 'lifepillar/vim-mucomplete'         " auto-completion
+Plugin 'octol/vim-cpp-enhanced-highlight'  " better syntax highlighting for C++
 Plugin 'sonph/onehalf', {'rtp': 'vim/'}
 Plugin 'townk/vim-autoclose'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'vim-scripts/a.vim'
-Plugin 'whonore/coqtail'
-Plugin 'xavierd/clang_complete'
+Plugin 'vim-syntastic/syntastic'  " simple C++ syntax checker
+Plugin 'whonore/coqtail'          " Coq plugin
+Plugin 'xavierd/clang_complete'   " C++ auto-completion
 call vundle#end()
+filetype plugin indent on
 
 " airline
 let g:airline#extensions#tabline#enabled = 1
@@ -34,10 +38,31 @@ let g:cpp_experimental_template_highlight = 1
 let g:cpp_member_variable_highlight = 1
 let g:cpp_posix_standard = 1
 
+" syntastic
+let g:syntastic_cpp_check_header = 1
+let g:syntastic_cpp_compiler = 'clang++'
+let g:syntastic_cpp_compiler_options = ' -std=c++17 -Wall -O0'
+let g:syntastic_cpp_no_default_include_dirs = 1
+let g:syntastic_cpp_no_include_search = 1
+let g:syntastic_cpp_auto_refresh_includes = 1
+let g:syntastic_check_on_wq = 0
+
+" clang_complete
+let g:clang_auto_select=1
+let g:clang_close_preview=1
+let g:clang_complete_auto = 1
+let g:clang_complete_macros=1
+let g:clang_complete_patterns=1
 let g:clang_library_path='/Library/Developer/CommandLineTools/usr/lib/'
 let g:clang_snippets=1
-let g:clang_close_preview=1
-let g:clang_auto_select=1
+let g:clang_trailing_placeholder=1
+let g:clang_user_options = '-std=c++17 -Wall -O0'
+
+" mucomplete
+set completeopt=""
+set completeopt+=menu,noinsert
+set completeopt-=longest,menunuopt,preview,popup,noselect,menuone,popuphidden
+let g:mucomplete#enable_auto_at_startup = 1
 
 """""""""""""""""""""""""""""""" builtin configs
 
@@ -85,8 +110,8 @@ set softtabstop=2
 set tabstop=2
 
 " keep this distance from top/bottom
-set so=8
+set so=4
 
 " auto saving
-set updatetime=2000  " trigger 2000 ms after inactivity
-autocmd CursorHold,CursorHoldI,InsertLeave <buffer> write
+set updatetime=1000  " trigger 2000 ms after inactivity
+autocmd CursorHold,CursorHoldI <buffer> write
