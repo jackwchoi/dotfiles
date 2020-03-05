@@ -121,12 +121,10 @@ set updatetime=2000  " trigger 2000 ms after inactivity
 autocmd CursorHoldI,InsertLeave <buffer> write
 
 " commands
-command Make execute "! clear && [[ -f Makefile ]] && make"
-command ClangFormat execute "! clear && clang-format -i '%:p'"
+command Make        execute "! clear && [[ -f Makefile ]] && make --print-directory"
+command ClangFormat execute "! clear && [[ '%:e' == cpp || '%:e' == hpp ]] && clang-format -i '%:p'"
 
-" r -> refresh
-" f -> format
-" b -> build
+" keymaps
 nnoremap W   :bd<LF>
 nnoremap b   :Make<LF>
 nnoremap f   :ClangFormat<LF>:edit!<LF><LF>
