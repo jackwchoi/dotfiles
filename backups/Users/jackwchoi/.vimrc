@@ -117,7 +117,7 @@ set tabstop=2
 set so=4
 
 " auto commands
-set updatetime=2000  " trigger 2000 ms after inactivity
+set updatetime=1024  " trigger after this many ms of inactivity
 autocmd CursorHoldI,InsertLeave <buffer> write
 
 " commands
@@ -125,10 +125,10 @@ command Make        execute "! clear && [[ -f Makefile ]] && make --print-direct
 command ClangFormat execute "! clear && [[ '%:e' == cpp || '%:e' == hpp ]] && clang-format -i '%:p'"
 
 " keymaps
-nnoremap W   :bd<LF>
 nnoremap b   :Make<LF>
-nnoremap f   :ClangFormat<LF>:edit!<LF><LF>
+nnoremap ff  :ClangFormat<LF>:edit!<LF><LF>
 nnoremap fzf :FZF<LF>
 nnoremap pen :PencilToggle<LF>
 nnoremap r   :source $MYVIMRC<LF>
 nnoremap t   :TagbarToggle<LF>
+nnoremap ww  :bd<LF>
