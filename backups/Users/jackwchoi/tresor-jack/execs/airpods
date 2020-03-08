@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+declare -r ACTION=$(
+  if [[ "$1" == '-d' || "$1" == '--disconnect' ]]; then
+    echo 'Disconnecting...' >&2
+    echo '--disconnect'
+  else
+    echo 'Connecting...' >&2
+    echo '--connect'
+  fi
+)
+
+blueutil --recent |
+  rg 'AirPods' |
+  rg -o '^address: [^,]+' |
+  rg -o '\S+$' |
+  xargs blueutil "$ACTION"
