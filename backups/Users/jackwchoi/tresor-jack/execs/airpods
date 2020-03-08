@@ -1,17 +1,32 @@
 #!/usr/bin/env bash
 
+function get-id {
+  rg 'Jack\S+ AirPods' <&0 |
+    rg -o '^address: [^,]+' |
+    rg -o '\S+$'
+}
+
 declare -r ACTION=$(
   if [[ "$1" == '-d' || "$1" == '--disconnect' ]]; then
-    echo 'Disconnecting...' >&2
     echo '--disconnect'
   else
-    echo 'Connecting...' >&2
     echo '--connect'
   fi
 )
 
-blueutil --recent |
-  rg 'AirPods' |
-  rg -o '^address: [^,]+' |
-  rg -o '\S+$' |
-  xargs blueutil "$ACTION"
+declare -r NUM_DEVICES=$(blueutil --recent | get-id | wc -l)
+if [[ "$NUM_DEVICES" != 1 ]]; then
+  echo "Expected 1 device but found $NUM_DEVICES." >&2
+  exit 1
+fi
+
+if [[ "$ACTION" == "--connect" && 
+      $(blueutil --paired | rg -v 'not connected' | get-id | wc -l) != 0 ]]; then
+  echo 'Already paired.' >&2
+  exit
+fi
+
+declare -r DEVICE_ID=$(blueutil --recent | get-id)
+
+echo "Performing $ACTION..."
+blueutil "$ACTION" "$DEVICE_ID"
