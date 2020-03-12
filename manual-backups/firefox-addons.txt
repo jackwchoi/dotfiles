@@ -1,5 +1,7 @@
-ClearURLs
-HTTPS Everywhere
-Site Bleacher
-uBlock Origin
-uMatrix
+https://addons.mozilla.org/en-US/firefox/addon/clearurls/?src=search
+https://addons.mozilla.org/en-US/firefox/addon/cookie-autodelete/?src=search
+https://addons.mozilla.org/en-US/firefox/addon/https-everywhere/?src=search
+https://addons.mozilla.org/en-US/firefox/addon/noscript/?src=search
+https://addons.mozilla.org/en-US/firefox/addon/site-bleacher/?src=search
+https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/?src=search
+https://addons.mozilla.org/en-US/firefox/addon/umatrix/?src=search

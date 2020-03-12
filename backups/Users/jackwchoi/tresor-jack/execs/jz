@@ -132,7 +132,7 @@ declare -r COMPRESSOR_ARGS=$(
     pigz )  "$FAST_MODE" && echo '--fast -' || echo '-9 -' ;;
     pixz )  "$FAST_MODE" && echo '-1'       || echo '-9 -' ;;
     pzstd ) "$FAST_MODE" && echo '-1 -'     || echo '-19 -' ;;
-    zip )   "$FAST_MODE" && echo '-1 -'     || echo '-9 -' ;;
+    zip )   "$FAST_MODE" && echo '-r -1 -'  || echo '-r -9 -' ;;
   esac
 )
 

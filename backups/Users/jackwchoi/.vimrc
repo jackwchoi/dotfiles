@@ -1,5 +1,5 @@
 """"""""""""""""""""""""""""""" plugin configs
-
+ 
 " vundle
 set nocompatible
 filetype off
@@ -62,9 +62,12 @@ let g:clang_trailing_placeholder=1
 let g:clang_user_options = '-std=c++17 -Wall -O0'
 
 " mucomplete
+set infercase
 set completeopt=""
 set completeopt+=menu,noinsert
 set completeopt-=longest,menunuopt,preview,popup,noselect,menuone,popuphidden
+set shortmess+=c
+let g:mucomplete#completion_delay = 1
 let g:mucomplete#enable_auto_at_startup = 1
 
 """""""""""""""""""""""""""""""" builtin configs
@@ -117,11 +120,10 @@ set tabstop=2
 set so=4
 
 " auto commands
-set updatetime=1024  " trigger after this many ms of inactivity
-autocmd CursorHoldI,InsertLeave <buffer> write
+set updatetime=512  " trigger after this many ms of inactivity
+autocmd CursorHoldI,InsertLeave * write  
 
-" commands
-command ClangFormat execute "! clear && [[ '%:e' == cpp || '%:e' == hpp ]] && clang-format -i '%:p'"
+command ClangFormat execute "! clear && [[ '%:e' == cpp || '%:e' == hpp ]] && clang-format -i '%:p' || cargo fmt"
 command Exec        execute "! clear && %:p"
 command Make        execute "! clear && [[ -f Makefile ]] && make --print-directory"
 
@@ -130,7 +132,6 @@ nnoremap bb  :Make<LF>
 nnoremap ee  :Exec<LF>
 nnoremap ff  :ClangFormat<LF>:edit!<LF><LF>
 nnoremap fzf :FZF<LF>
-nnoremap pen :PencilToggle<LF>
 nnoremap rr  :source $MYVIMRC<LF>
 nnoremap tt  :TagbarToggle<LF>
 nnoremap ww  :bd<LF>
