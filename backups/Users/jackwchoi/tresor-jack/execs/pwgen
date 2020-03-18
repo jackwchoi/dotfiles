@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+#
+if rg -q '^\d+$' <<< "$1"; then
+  echo $(( "$1" * 2 ))
+else
+  echo '256'
+fi |
+  xargs openssl rand -base64 |
+  tr --delete --complement '[:alnum:]'

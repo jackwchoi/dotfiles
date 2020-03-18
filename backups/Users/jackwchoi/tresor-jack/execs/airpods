@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function get-id {
-  rg 'Jack\S+ AirPods' <&0 |
+  rg 'Jack\S+ AirPods Pro' <&0 |
     rg -o '^address: [^,]+' |
     rg -o '\S+$'
 }

@@ -1,28 +1,28 @@
 """"""""""""""""""""""""""""""" plugin configs
+set nocompatible
  
 " vundle
-set nocompatible
-filetype off
+"filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'junegunn/fzf', { 'dir': '~/.vim/fzf', 'do': './install --all' }
-Plugin 'junegunn/fzf.vim'
-Plugin 'let-def/vimbufsync'                " dependency for coqtail
-Plugin 'lifepillar/vim-mucomplete'         " auto-completion
-Plugin 'majutsushi/tagbar'
-Plugin 'octol/vim-cpp-enhanced-highlight'  " better syntax highlighting for C++
-Plugin 'reedes/vim-pencil'
-Plugin 'rust-lang/rust.vim'
-Plugin 'sonph/onehalf', {'rtp': 'vim/'}
-Plugin 'townk/vim-autoclose'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'vim-scripts/a.vim'
-Plugin 'vim-syntastic/syntastic'  " simple C++ syntax checker
-Plugin 'whonore/coqtail'          " Coq plugin
-Plugin 'xavierd/clang_complete'   " C++ auto-completion
+  Plugin 'VundleVim/Vundle.vim'
+  Plugin 'airblade/vim-gitgutter'
+  Plugin 'junegunn/fzf', { 'dir': '~/.vim/fzf', 'do': './install --all' }
+  Plugin 'junegunn/fzf.vim'
+  Plugin 'let-def/vimbufsync'                " dependency for coqtail
+  Plugin 'lifepillar/vim-mucomplete'         " auto-completion
+  Plugin 'majutsushi/tagbar'
+  Plugin 'octol/vim-cpp-enhanced-highlight'  " better syntax highlighting for C++
+  Plugin 'reedes/vim-pencil'
+  Plugin 'rust-lang/rust.vim'
+  Plugin 'sonph/onehalf', {'rtp': 'vim/'}
+  Plugin 'townk/vim-autoclose'
+  Plugin 'vim-airline/vim-airline'
+  Plugin 'vim-airline/vim-airline-themes'
+  Plugin 'vim-scripts/a.vim'
+  Plugin 'vim-syntastic/syntastic'  " simple C++ syntax checker
+  Plugin 'whonore/coqtail'          " Coq plugin
+  Plugin 'xavierd/clang_complete'   " C++ auto-completion
 call vundle#end()
 filetype plugin indent on
 
@@ -123,15 +123,17 @@ set so=4
 set updatetime=512  " trigger after this many ms of inactivity
 autocmd CursorHoldI,InsertLeave * write  
 
-command ClangFormat execute "! clear && [[ '%:e' == cpp || '%:e' == hpp ]] && clang-format -i '%:p' || cargo fmt"
-command Exec        execute "! clear && %:p"
-command Make        execute "! clear && [[ -f Makefile ]] && make --print-directory"
+command Build  execute "! clear && [[ -f Makefile ]] && make --print-directory || cargo check"
+command Format execute "! clear && [[ '%:e' == cpp || '%:e' == hpp ]] && clang-format -i '%:p' || cargo fmt || trim -i '%:p'"
+command Run    execute "! clear && time '%:p' && echo && date"
+command Test   execute "! clear && [[ -f Cargo.toml ]] && cargo test"
 
 " keymaps
-nnoremap bb  :Make<LF>
-nnoremap ee  :Exec<LF>
-nnoremap ff  :ClangFormat<LF>:edit!<LF><LF>
+nnoremap ./  :Run<LF>
+nnoremap bb  :Build<LF>
+nnoremap ff  :Format<LF>:edit!<LF><LF>
 nnoremap fzf :FZF<LF>
 nnoremap rr  :source $MYVIMRC<LF>
-nnoremap tt  :TagbarToggle<LF>
+nnoremap tgs :TagbarToggle<LF>
+nnoremap tt  :Test<LF>
 nnoremap ww  :bd<LF>
