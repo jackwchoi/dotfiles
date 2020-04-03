@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# USAGE
+#   `. wcd <EXEC>`
+
+cd "$(\dirname "$(\which "$1")")"

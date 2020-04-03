@@ -20,7 +20,7 @@ if [[ "$NUM_DEVICES" != 1 ]]; then
   exit 1
 fi
 
-if [[ "$ACTION" == "--connect" && 
+if [[ "$ACTION" == "--connect" &&
       $(blueutil --paired | rg -v 'not connected' | get-id | wc -l) != 0 ]]; then
   echo 'Already paired.' >&2
   exit

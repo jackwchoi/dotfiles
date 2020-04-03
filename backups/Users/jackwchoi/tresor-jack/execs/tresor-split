@@ -7,6 +7,6 @@ if [[ "$INPUT_SIZE" -gt $(( 32 * 1000 * 1000 * 1000 )) ]]; then
   # split into 8GB chunks
   declare -r CHUNK_SIZE=$(( 8 * 1000 * 1000 * 1000 ))
   split --bytes=$CHUNK_SIZE "$1" "$1."
-else 
+else
   split --number=4 "$1" "$1."
 fi

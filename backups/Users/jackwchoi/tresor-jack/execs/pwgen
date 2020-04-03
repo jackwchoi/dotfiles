@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 
+declare -r COUNT=$(
+  if rg -q '^\d+$' <<< "$1"; then
+    echo "$1"
+  else
+    echo '128'
+  fi
+)
+
 #
-if rg -q '^\d+$' <<< "$1"; then
-  echo $(( "$1" * 2 ))
-else
-  echo '256'
-fi |
-  xargs openssl rand -base64 |
-  tr --delete --complement '[:alnum:]'
+openssl rand -base64 "$(( $COUNT * 2))" |
+  tr --delete --complement '[:alnum:]' |
+  head -c "$COUNT"

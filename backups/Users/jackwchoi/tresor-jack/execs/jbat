@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# adopted from https://gist.github.com/Jahhein/45b8e8c9c36a0932189a5037f990bcdd
+
+BATTERY_INFO=(
+  "BatteryPercentLeft"
+  "BatteryPercentRight"
+)
+
+function fields {
+  echo 'BatteryPercentLeft'
+  echo 'BatteryPercentRight'
+}
+
+declare -r BT_DEFAULTS=$(defaults read /Library/Preferences/com.apple.Bluetooth)
+declare -r SYS_PROFILE=$(system_profiler SPBluetoothDataType 2>/dev/null)
+declare -r MAC_ADDR=$(
+  rg --before-context 2 "Minor Type: Headphones" <<< "${SYS_PROFILE}" |
+    awk '/Address/{print $2}'
+)
+declare -r CONNECTED=$(
+  rg --after-context 6 --ignore-case "${MAC_ADDR}" <<< "${SYS_PROFILE}" |
+    awk '/Connected: Yes/{print 1}'
+)
+declare -r BT_DATA=$(rg --after-context 6 --ignore-case "${MAC_ADDR}" <<< "${BT_DEFAULTS}")
+
+fields |
+  while read f; do
+    BATTERY=$(
+      rg "$f" <<< "$BT_DATA" |
+        rg -o '\d+'
+    )
+    echo "$f: $BATTERY%"
+  done

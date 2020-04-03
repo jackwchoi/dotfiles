@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-open '/Applications/Firefox.app' && sleep 1s
+declare -r LITTLE_FERRY='40.849,-74.0375'
 
-open 'https://darksky.net/forecast/43.0288,-76.0059/us12/en'
-open "https://darksky.net/details/43.0288,-76.0059/$(date +'%m-%d-%y')/us12/en"
-
-open 'https://darksky.net/forecast/42.3591,-71.0933/us12/en'
-open "https://darksky.net/details/42.3591,-71.0933/$(date +'%m-%d-%y')/us12/en"
+{
+  echo "https://darksky.net/forecast/$LITTLE_FERRY/us12/en"
+  echo "https://darksky.net/details/$LITTLE_FERRY/$(date +'%m-%d-%y')/us12/en"
+} |
+  xargs open -a 'Brave Browser'

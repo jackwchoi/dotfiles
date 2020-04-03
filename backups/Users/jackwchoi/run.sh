@@ -29,7 +29,7 @@ while true; do
     -q | --quick-start )  START_QUICK=true;  shift;;
     -r | --restart )      RESTART=true;      shift;;
     -s | --shutdown )     SHUTDOWN=true;     shift;;
-    -u | --update )       UPDATE=true; shift;;
+    -u | --update )       UPDATE=true;       shift;;
     * )  # specifically "--"
       shift; break;;
   esac
@@ -41,15 +41,16 @@ function necho {
 }
 
 # rewrite this using rust regexset
-function clean_quick { 
+function clean_quick {
+  : | pbcopy
   necho 'Emptying trash...'
   empty-trash &
-  
+
   necho 'Cleaning files...'
   declare -r REPL='(bash|julia|node_repl|scala|python|sqlite|zsh)_(history|sessions)'
   declare -r MISC='(cups|rnd|viminfo|DS_Store|putty|dbshell|history|aspell\.en\.(prepl|pws)|ipynb_checkpoints|grip|wget-hsts|ipython|lesshst|matplotlib|oracle_jre_usage|pdfbox\.cache|plotly|tooling|swp)'
   {
-    find ~/ -maxdepth 1 
+    find ~/ -maxdepth 1
     find "$WORKSPACE"
     find ~/{Desktop,Documents,Downloads}/
     find ~/tresor-*
@@ -87,7 +88,7 @@ function clean_full {
 
   necho 'Uninstalling HomeBrew formula not in Brewfile...'
   brew bundle cleanup --force --file="$BREWFILE"
-  
+
   necho 'Removing HomeBrew caches and old versions...'
   brew cleanup
 }
@@ -149,7 +150,7 @@ if $START_FULL; then
 
   necho 'Refreshing Calendar...'
   refresh-calendar &> /dev/null &
-  
+
   weather &
 
   wait

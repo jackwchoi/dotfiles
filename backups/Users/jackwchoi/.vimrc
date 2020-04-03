@@ -1,13 +1,13 @@
 """"""""""""""""""""""""""""""" plugin configs
 set nocompatible
- 
+
 " vundle
 "filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
   Plugin 'VundleVim/Vundle.vim'
   Plugin 'airblade/vim-gitgutter'
-  Plugin 'junegunn/fzf', { 'dir': '~/.vim/fzf', 'do': './install --all' }
+  Plugin 'junegunn/fzf'
   Plugin 'junegunn/fzf.vim'
   Plugin 'let-def/vimbufsync'                " dependency for coqtail
   Plugin 'lifepillar/vim-mucomplete'         " auto-completion
@@ -121,16 +121,20 @@ set so=4
 
 " auto commands
 set updatetime=512  " trigger after this many ms of inactivity
-autocmd CursorHoldI,InsertLeave * write  
+autocmd CursorHoldI,InsertLeave * write
 
 command Build  execute "! clear && [[ -f Makefile ]] && make --print-directory || cargo check"
-command Format execute "! clear && [[ '%:e' == cpp || '%:e' == hpp ]] && clang-format -i '%:p' || cargo fmt || trim -i '%:p'"
+command Format execute "! clear && [[ '%:t' =~ \.(cpp|hpp)$ ]] && clang-format -i '%:p' || cargo fmt; trim -i '%:p'"
 command Run    execute "! clear && time '%:p' && echo && date"
-command Test   execute "! clear && [[ -f Cargo.toml ]] && cargo test"
+command Test   execute "! clear && [[ '%:t' =~ \.rs$ ]] && cargo test"
+command Copy   execute "! clear && pbcopy < %:p"
+command Sk     execute "! sk ."
+"alias broot='! clear && \broot . --hidden --show-git-info'
 
 " keymaps
 nnoremap ./  :Run<LF>
 nnoremap bb  :Build<LF>
+nnoremap cc  :Copy<LF><LF>
 nnoremap ff  :Format<LF>:edit!<LF><LF>
 nnoremap fzf :FZF<LF>
 nnoremap rr  :source $MYVIMRC<LF>

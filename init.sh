@@ -34,4 +34,3 @@ while read PACKAGE; do
 done < 'manual-backups/cargo_packages.txt'
 
 parallel 'apm install {}' < 'manual-backups/atom-packages.txt'
-

@@ -66,54 +66,55 @@ export TERM='xterm-256color'
 
 # default options
 #alias tree='tree -aCF'  # colorize output
-alias ag="ag --case-sensitive --color-line-number=$GREY --color-match=$RED --color-path=$CYAN --hidden --file-search-regex"
 alias athena='ssh athena.dialup.mit.edu -l' # username
-alias bat='bat --color always --decorations always --map-syntax h:cpp --map-syntax hpp:cpp'
-alias batp='bat --style plain'
-alias broot='broot --gitignore no --hidden'
-alias c='cargo'
+alias bat='\bat --color always --decorations always --map-syntax h:cpp --map-syntax hpp:cpp'
+alias batp='\bat --style plain'
+alias broot='\broot . --hidden --show-gitignored --show-git-info'
+alias c='\cargo'
 alias chrome='chrome-cli'
-alias ciaa='cargo install-update --all'
-alias clam='clamdscan --fdpass --infected --multiscan --verbose'
-alias clean="clear && printf '\033[3J' && ~/run.sh -c && history -c"
-alias clear="clear && printf '\033[3J'"
-alias fd='fd --hidden --no-ignore'
-alias fzf='fzf --border --color=dark,hl:9,hl+:9,bg+:-1 --inline-info'
-alias g='git'
-alias grep='grep --perl-regexp --color=auto'
-alias gs='git status'
-alias gss='git status --short'
-alias htop='htop --delay=20'
-alias jrepl='julia -ie "using LinearAlgebra; using RowEchelon"'
-alias les='less --long-prompt --ignore-case --shift .0625 --status-column --RAW-CONTROL-CHARS'
-alias less='les --chop-long-lines'
-alias ls='exa --all --classify'
-alias mkdir='mkdir --parents --verbose'
-alias mv='mv --interactive --verbose'
-alias ncdu='ncdu -rr --color dark'
-alias nload='nload devices en5 -u H'
-alias oxipng='oxipng --opt 4 --interlace 1 --strip safe'
-alias p='parallel'
-alias pip='pip3'
-alias python='python3'
-alias ql='qlmanage -p'
-alias rg='rg --hidden --smart-case --unrestricted'
-alias rm='rm --verbose'
-alias s='source ~/.bash_profile'
-alias sed='sed --regexp-extended'
-alias sk='sk --inline-info --multi --prompt "$ " --color matched:1,matched_bg:-1,info:-1,current_bg:239,current_match:1,current_match_bg:239,prompt:4,cursor:1'
-alias speedtest='speedtest --secure --bytes --simple'
-alias ti='termimage --ansi truecolor'
-alias tree='exa --all --classify --tree'
-alias which='alias | gwhich --read-alias --show-dot --show-tilde'
+alias ciaa='\cargo install-update --all'
+alias clam='\clamdscan --fdpass --infected --multiscan --verbose'
+alias clean="clear && printf '\e[3J' && ~/run.sh -c && history -c"
+alias clear="clear && printf '\e[3J'"
+alias fd='\fd --hidden --no-ignore'
+alias fdup='\fdup --sort-vec'
+alias fzf='\fzf --border --color=dark,hl:9,hl+:9,bg+:-1 --inline-info'
+alias g='\git'
+alias grep='\grep --perl-regexp --color=auto'
+alias gs='\git status'
+alias gss='\git status --short'
+alias htop='\htop --delay=20'
+alias jrepl='\julia -ie "using LinearAlgebra; using RowEchelon"'
+alias les='\less --long-prompt --ignore-case --shift .0625 --status-column --RAW-CONTROL-CHARS'
+alias less='\less --long-prompt --ignore-case --shift .0625 --status-column --RAW-CONTROL-CHARS --chop-long-lines'
+alias ls='\exa --all --classify'
+alias mkdir='\mkdir --parents --verbose'
+alias mv='\mv --interactive --verbose'
+alias ncdu='\ncdu -rr --color dark'
+alias nload='\nload devices en5 -u H'
+alias oxipng='\oxipng --opt 4 --interlace 1 --strip safe'
+alias p='\parallel'
+alias pip='\pip3'
+alias python='\python3'
+alias ql='\qlmanage -p'
+alias rg='\rg --hidden --smart-case --unrestricted'
+alias rm='\rm --verbose'
+alias s='\source ~/.bash_profile'
+alias sed='\sed --regexp-extended'
+alias sk='\sk --inline-info --multi --prompt "$ " --color matched:1,matched_bg:-1,info:-1,current_bg:239,current_match:1,current_match_bg:239,prompt:4,cursor:1'
+alias speedtest='\speedtest --secure --bytes --simple'
+alias ti='\termimage --ansi truecolor'
+alias tree='\exa --all --classify --tree'
+alias which='\alias | gwhich --read-alias --show-dot --show-tilde'
 alias wrf='while read f; do'
-alias xargs='xargs --delimiter "\n"'
+alias x='\xargs --delimiter "\n"'
+alias xargs='\xargs --delimiter "\n"'
 alias youtube-dl='youtube-dl --no-cache-dir'
 
 # for easy cd'ing
-alias ws="$WORKSPACE"
 alias clas="$WORKSPACE/mit/senior/spring"
 alias tmp="$WORKSPACE/temps"
+alias ws="$WORKSPACE"
 
 # shell options
 shopt -s autocd cdspell globstar gnu_errfmt
@@ -123,9 +124,6 @@ date
 
 export SHELL="/usr/local/bin/bash"
 
-# starship on, iff terminal because alacritty doesn't support ligatures
-if [[ "$TERM_PROGRAM" == 'Apple_Terminal' ]]; then
-  eval "$(starship init bash)"
-fi
+neofetch
 
-neofetch --shell_path on --memory_display infobar
+source /Users/jackwchoi/Library/Preferences/org.dystroy.broot/launcher/bash/br

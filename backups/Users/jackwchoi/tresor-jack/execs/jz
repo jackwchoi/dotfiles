@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # USAGE
 #   jz [ratio] [type] <filename>
-#   where 
+#   where
 #     ratio is one of --best, --fast
 #     type is one of --gz --xz --zst --zip
 
@@ -75,7 +75,7 @@ function handle {
   declare -r COMPRESSOR="$3"
   shift 3
   declare -r COMPRESSOR_ARGS=$@
-  
+
   declare -r TARGET=$(get-archive-name "$SOURCE" "$EXTENSION")
 
   if ! [[ -e "$SOURCE" ]]; then
@@ -85,9 +85,9 @@ function handle {
     echo "ERROR: '$TARGET' exists..."
     return 1
   fi
-  
+
   compress "$SOURCE" "$COMPRESSOR" "$COMPRESSOR_ARGS" > "$TARGET"
-  
+
   declare -r SIZE_SOURCE_B=$(bytes "$SOURCE")
   declare -r SIZE_TARGET_B=$(bytes "$TARGET")
   declare -r SIZE_SOURCE_MB=$(b-to-mb "$(bytes "$SOURCE")")
@@ -136,7 +136,7 @@ declare -r COMPRESSOR_ARGS=$(
   esac
 )
 
-# for every input arg, 
+# for every input arg,
 for INPUT in "$@"; do
   echo "$INPUT"
 done |
