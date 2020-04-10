@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+declare -r FILEPATH="$1"
+
+if [[ -f 'Cargo.toml' ]]; then
+  cargo check
+elif [[ -f 'Makefile' ]]; then
+  make --print-directory
+elif [[ -f 'stack.yaml' ]]; then
+  stack build
+fi
+
+echo
+date

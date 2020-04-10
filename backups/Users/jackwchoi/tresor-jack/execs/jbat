@@ -1,12 +1,8 @@
 #!/usr/bin/env bash
 # adopted from https://gist.github.com/Jahhein/45b8e8c9c36a0932189a5037f990bcdd
 
-BATTERY_INFO=(
-  "BatteryPercentLeft"
-  "BatteryPercentRight"
-)
-
 function fields {
+  echo 'BatteryPercentCase'
   echo 'BatteryPercentLeft'
   echo 'BatteryPercentRight'
 }

@@ -21,6 +21,7 @@ export PATH="/usr/local/opt/unzip/bin:$PATH"
 export PATH="/usr/local/opt/zip/bin:$PATH"
 #
 export PATH="/usr/local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 
 # used to be dropbox
@@ -67,7 +68,7 @@ export TERM='xterm-256color'
 # default options
 #alias tree='tree -aCF'  # colorize output
 alias athena='ssh athena.dialup.mit.edu -l' # username
-alias bat='\bat --color always --decorations always --map-syntax h:cpp --map-syntax hpp:cpp'
+alias bat='\bat --color always --decorations always --map-syntax *.hpp:C++ --map-syntax *.hs:Haskell'
 alias batp='\bat --style plain'
 alias broot='\broot . --hidden --show-gitignored --show-git-info'
 alias c='\cargo'
@@ -102,7 +103,7 @@ alias rm='\rm --verbose'
 alias s='\source ~/.bash_profile'
 alias sed='\sed --regexp-extended'
 alias sk='\sk --inline-info --multi --prompt "$ " --color matched:1,matched_bg:-1,info:-1,current_bg:239,current_match:1,current_match_bg:239,prompt:4,cursor:1'
-alias speedtest='\speedtest --secure --bytes --simple'
+alias speedtest='\speedtest --secure --bytes'
 alias ti='\termimage --ansi truecolor'
 alias tree='\exa --all --classify --tree'
 alias which='\alias | gwhich --read-alias --show-dot --show-tilde'

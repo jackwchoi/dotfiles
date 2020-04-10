@@ -1,7 +1,7 @@
 /******
 * name: ghacks user.js
-* date: 20 January 2020
-* version 72-beta
+* date: 07 April 2020
+* version 75-alpha
 * authors: v52+ github | v51- www.ghacks.net
 * url: https://github.com/ghacksuserjs/ghacks-user.js
 * license: MIT: https://github.com/ghacksuserjs/ghacks-user.js/blob/master/LICENSE.txt
@@ -83,29 +83,28 @@
 user_pref("_user.js.parrot", "START: Oh yes, the Norwegian Blue... what's wrong with it?");
 
 /* 0000: disable about:config warning
- * The XUL version can still be accessed in FF71+ @ chrome://global/content/config.xul
- * and in FF73+ @ chrome://global/content/config.xhtml ***/
-user_pref("general.warnOnAboutConfig", false); // for the XUL version
-user_pref("browser.aboutConfig.showWarning", false); // for the new HTML version [FF71+]
+ * FF71-72: chrome://global/content/config.xul
+ * FF73+: chrome://global/content/config.xhtml ***/
+user_pref("general.warnOnAboutConfig", false); // XUL/XHTML version
+user_pref("browser.aboutConfig.showWarning", false); // HTML version [FF71+]
 
 /*** [SECTION 0100]: STARTUP ***/
 user_pref("_user.js.parrot", "0100 syntax error: the parrot's dead!");
-user_pref("browser.privatebrowsing.autostart", true);  // @jackwchoi
 /* 0101: disable default browser check
  * [SETTING] General>Startup>Always check if Firefox is your default browser ***/
-user_pref("browser.shell.checkDefaultBrowser", true);  // @jackchoi
+user_pref("browser.shell.checkDefaultBrowser", false);
 /* 0102: set START page (0=blank, 1=home, 2=last visited page, 3=resume previous session)
  * [NOTE] Session Restore is not used in PB mode (0110) and is cleared with history (2803, 2804)
  * [SETTING] General>Startup>Restore previous session ***/
-user_pref("browser.startup.page", 1);  // @jackwchoi
+user_pref("browser.startup.page", 0);
 /* 0103: set HOME+NEWWINDOW page
  * about:home=Activity Stream (default, see 0105), custom URL, about:blank
  * [SETTING] Home>New Windows and Tabs>Homepage and new windows ***/
-user_pref("browser.startup.homepage", "about:home");  // @jackwchoi
+user_pref("browser.startup.homepage", "about:blank");
 /* 0104: set NEWTAB page
  * true=Activity Stream (default, see 0105), false=blank page
  * [SETTING] Home>New Windows and Tabs>New tabs ***/
-user_pref("browser.newtabpage.enabled", true); // @jackwchoi
+user_pref("browser.newtabpage.enabled", false);
 user_pref("browser.newtab.preload", false);
 /* 0105: disable Activity Stream stuff (AS)
  * AS is the default homepage/newtab in FF57+, based on metadata and browsing behavior.
@@ -151,10 +150,10 @@ user_pref("_user.js.parrot", "0200 syntax error: the parrot's definitely decease
  * [SETTING] to add site exceptions: Page Info>Permissions>Access Your Location
  * [SETTING] to manage site exceptions: Options>Privacy & Security>Permissions>Location>Settings ***/
    // user_pref("permissions.default.geo", 2);
-/* 0203: use Mozilla geolocation service instead of Google when geolocation is enabled
+/* 0203: use Mozilla geolocation service instead of Google when geolocation is enabled [FF74+]
  * Optionally enable logging to the console (defaults to false) ***/
-user_pref("geo.wifi.uri", "https://location.services.mozilla.com/v1/geolocate?key=%MOZILLA_API_KEY%");
-   // user_pref("geo.wifi.logging.enabled", true); // [HIDDEN PREF]
+user_pref("geo.provider.network.url", "https://location.services.mozilla.com/v1/geolocate?key=%MOZILLA_API_KEY%");
+   // user_pref("geo.provider.network.logging.enabled", true); // [HIDDEN PREF]
 /* 0204: disable using the OS's geolocation service ***/
 user_pref("geo.provider.ms-windows-location", false); // [WINDOWS]
 user_pref("geo.provider.use_corelocation", false); // [MAC]
@@ -205,8 +204,8 @@ user_pref("app.update.auto", false);
  * [SETTING] about:addons>Extensions>[cog-wheel-icon]>Update Add-ons Automatically (toggle) ***/
    // user_pref("extensions.update.autoUpdateDefault", false);
 /* 0306: disable extension metadata
- * used when installing/updating an extension, and in daily background update checks: if false, it
- * hides the expanded text description (if it exists) when you "show more details about an addon" ***/
+ * used when installing/updating an extension, and in daily background update checks:
+ * when false, extension detail tabs will have no description ***/
    // user_pref("extensions.getAddons.cache.enabled", false);
 /* 0308: disable search engine updates (e.g. OpenSearch)
  * [NOTE] This does not affect Mozilla's built-in or Web Extension search engines
@@ -359,7 +358,7 @@ user_pref("browser.ping-centre.telemetry", false);
 /* 0517: disable Form Autofill
  * [NOTE] Stored data is NOT secure (uses a JSON file)
  * [NOTE] Heuristics controls Form Autofill on forms without @autocomplete attributes
- * [SETTING] Options>Privacy&Security>Forms and Autofill>Autofill addresses (FF73+)
+ * [SETTING] Privacy & Security>Forms and Autofill>Autofill addresses (FF74+)
  * [1] https://wiki.mozilla.org/Firefox/Features/Form_Autofill
  * [2] https://www.ghacks.net/2017/05/24/firefoxs-new-form-autofill-is-awesome/ ***/
 user_pref("extensions.formautofill.addresses.enabled", false); // [FF55+]
@@ -465,8 +464,7 @@ user_pref("_user.js.parrot", "0800 syntax error: the parrot's ceased to be!");
  * the dropdown will now auto-select it and you can then hit 'enter' and it will work
  * [SETUP-CHROME] If you don't, or rarely, type URLs, or you use a default search
  * engine that respects privacy, then you probably don't need this ***/
-user_pref("keyword.enabled", true);  // @jackwchoi
-user_pref("browser.urlbar.placeholderName", "DuckDuckGo");  // @jackwchoi
+user_pref("keyword.enabled", false);
 /* 0802: disable location bar domain guessing
  * domain guessing intercepts DNS "hostname not found errors" and resends a
  * request (e.g. by adding www or .com). This is inconsistent use (e.g. FQDNs), does not work
@@ -477,10 +475,6 @@ user_pref("browser.urlbar.placeholderName", "DuckDuckGo");  // @jackwchoi
 user_pref("browser.fixup.alternate.enabled", false);
 /* 0803: display all parts of the url in the location bar ***/
 user_pref("browser.urlbar.trimURLs", false);
-user_pref("browser.urlbar.suggest.bookmark", false);
-user_pref("browser.urlbar.suggest.history", false);
-user_pref("browser.urlbar.suggest.openpage", true);
-user_pref("browser.urlbar.suggest.searches", false);
 /* 0805: disable coloring of visited links - CSS history leak
  * [NOTE] This has NEVER been fully "resolved": in Mozilla/docs it is stated it's
  * only in 'certain circumstances', also see latest comments in [2]
@@ -664,7 +658,9 @@ user_pref("security.ssl.require_safe_negotiation", true);
  * [1] https://www.ssllabs.com/ssl-pulse/ ***/
    // user_pref("security.tls.version.min", 3);
    // user_pref("security.tls.version.max", 4);
-/* 1203: disable SSL session tracking [FF36+]
+/* 1203: enforce TLS 1.0 and 1.1 downgrades as session only */
+user_pref("security.tls.version.enable-deprecated", false);
+/* 1204: disable SSL session tracking [FF36+]
  * SSL Session IDs are unique, last up to 24hrs in Firefox, and can be used for tracking
  * [SETUP-PERF] Relax this if you have FPI enabled (see 4000) *AND* you understand the
  * consequences. FPI isolates these, but it was designed with the Tor protocol in mind,
@@ -673,12 +669,12 @@ user_pref("security.ssl.require_safe_negotiation", true);
  * [2] https://bugzilla.mozilla.org/967977
  * [3] https://arxiv.org/abs/1810.07304 ***/
 user_pref("security.ssl.disable_session_identifiers", true); // [HIDDEN PREF]
-/* 1204: disable SSL Error Reporting
+/* 1205: disable SSL Error Reporting
  * [1] https://firefox-source-docs.mozilla.org/browser/base/sslerrorreport/preferences.html ***/
 user_pref("security.ssl.errorReporting.automatic", false);
 user_pref("security.ssl.errorReporting.enabled", false);
 user_pref("security.ssl.errorReporting.url", "");
-/* 1205: disable TLS1.3 0-RTT (round-trip time) [FF51+]
+/* 1206: disable TLS1.3 0-RTT (round-trip time) [FF51+]
  * [1] https://github.com/tlswg/tls13-spec/issues/1001
  * [2] https://blog.cloudflare.com/tls-1-3-overview-and-q-and-a/ ***/
 user_pref("security.tls.enable_0rtt_data", false);
@@ -873,10 +869,10 @@ user_pref("privacy.userContext.ui.enabled", true);
 /* 1702: enable Container Tabs [FF50+]
  * [SETTING] General>Tabs>Enable Container Tabs ***/
 user_pref("privacy.userContext.enabled", true);
-/* 1704: set behaviour on "+ Tab" button to display container menu [FF53+] [SETUP-CHROME]
- * 0=no menu (default), 1=show when clicked, 2=show on long press
- * [1] https://bugzilla.mozilla.org/1328756 ***/
-user_pref("privacy.userContext.longPressBehavior", 2);
+/* 1703: set behaviour on "+ Tab" button to display container menu on left click [FF74+]
+ * [NOTE] The menu is always shown on long press and right click
+ * [SETTING] General>Tabs>Enable Container Tabs>Settings>Select a container for each new tab ***/
+   // user_pref("privacy.userContext.newTabContainerOnLeftClick.enabled", true);
 
 /*** [SECTION 1800]: PLUGINS ***/
 user_pref("_user.js.parrot", "1800 syntax error: the parrot's pushing up daisies!");
@@ -924,7 +920,6 @@ user_pref("webgl.disabled", true);
 user_pref("webgl.enable-webgl2", false);
 /* 2012: limit WebGL ***/
 user_pref("webgl.min_capability_mode", true);
-user_pref("webgl.disable-extensions", true);
 user_pref("webgl.disable-fail-if-major-performance-caveat", true);
 /* 2022: disable screensharing ***/
 user_pref("media.getusermedia.screensharing.enabled", false);
@@ -1059,11 +1054,14 @@ user_pref("dom.vibrator.enabled", false);
  * [5] https://www.mozilla.org/security/advisories/mfsa2017-05/#CVE-2017-5400
  * [6] https://rh0dev.github.io/blog/2017/the-return-of-the-jit/ ***/
 user_pref("javascript.options.asmjs", false);
-/* 2421: disable Ion and baseline JIT to help harden JS against exploits
- * [WARNING] If false, causes the odd site issue and there is also a performance loss
+/* 2421: disable Ion and baseline JIT to harden against JS exploits [SETUP-HARDEN]
+ * [NOTE] In FF75+, when **both** Ion and JIT are disabled, **and** the new pref
+ * hidden pref is enabled, then Ion can still be used by extensions (1599226)
+ * [WARNING] Disabling Ion/JIT can cause some site issues and performance loss
  * [1] https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-0817 ***/
    // user_pref("javascript.options.ion", false);
    // user_pref("javascript.options.baselinejit", false);
+   // user_pref("javascript.options.jit_trustedprincipals", true); // [FF75+] [HIDDEN PREF]
 /* 2422: disable WebAssembly [FF52+] [SETUP-PERF]
  * [NOTE] In FF71+ this no longer affects extensions (1576254)
  * [1] https://developer.mozilla.org/docs/WebAssembly ***/
@@ -1086,10 +1084,6 @@ user_pref("_user.js.parrot", "2500 syntax error: the parrot's shuffled off 'is m
  * [NOTE] From FF52+ Battery Status API is only available in chrome/privileged code. see [1]
  * [1] https://bugzilla.mozilla.org/1313580 ***/
    // user_pref("dom.battery.enabled", false);
-/* 2504: disable virtual reality devices
- * Optional protection depending on your connected devices
- * [1] https://developer.mozilla.org/docs/Web/API/WebVR_API ***/
-   // user_pref("dom.vr.enabled", false);
 /* 2505: disable media device enumeration [FF29+]
  * [NOTE] media.peerconnection.enabled should also be set to false (see 2001)
  * [1] https://wiki.mozilla.org/Media/getUserMedia
@@ -1110,6 +1104,15 @@ user_pref("dom.webaudio.enabled", false);
  * [1] https://github.com/WICG/media-capabilities
  * [2] https://wicg.github.io/media-capabilities/#security-privacy-considerations ***/
    // user_pref("media.media-capabilities.enabled", false);
+/* 2520: disable virtual reality devices
+ * Optional protection depending on your connected devices
+ * [1] https://developer.mozilla.org/docs/Web/API/WebVR_API ***/
+   // user_pref("dom.vr.enabled", false);
+/* 2521: set a default permission for Virtual Reality (see 2520) [FF73+]
+ * 0=always ask (default), 1=allow, 2=block
+ * [SETTING] to add site exceptions: Page Info>Permissions>Access Virtual Reality Devices
+ * [SETTING] to manage site exceptions: Options>Privacy & Security>Permissions>Virtual Reality>Settings ***/
+   // user_pref("permissions.default.xr", 0);
 
 /*** [SECTION 2600]: MISCELLANEOUS ***/
 user_pref("_user.js.parrot", "2600 syntax error: the parrot's run down the curtain!");
@@ -1188,6 +1191,15 @@ user_pref("pdfjs.disabled", false); // [DEFAULT: false]
 /* 2621: disable links launching Windows Store on Windows 8/8.1/10 [WINDOWS]
  * [1] https://www.ghacks.net/2016/03/25/block-firefox-chrome-windows-store/ ***/
 user_pref("network.protocol-handler.external.ms-windows-store", false);
+/* 2622: enforce no system colors; they can be fingerprinted
+ * [SETTING] General>Language and Appearance>Fonts and Colors>Colors>Use system colors ***/
+user_pref("browser.display.use_system_colors", false); // [DEFAULT: false]
+/* 2623: disable permissions delegation [FF73+]
+ * Currently applies to cross-origin geolocation, camera, mic and screen-sharing
+ * permissions, and fullscreen requests. Disabling delegation means any prompts
+ * for these will show/use their correct 3rd party origin
+ * [1] https://groups.google.com/forum/#!topic/mozilla.dev.platform/BdFOMAuCGW8/discussion */
+user_pref("permissions.delegation.enabled", false);
 
 /** DOWNLOADS ***/
 /* 2650: discourage downloading to desktop
@@ -1217,7 +1229,7 @@ user_pref("browser.download.hide_plugins_without_extensions", false);
  * [1] archived: https://archive.is/DYjAM ***/
 user_pref("extensions.enabledScopes", 5); // [HIDDEN PREF]
 user_pref("extensions.autoDisableScopes", 15); // [DEFAULT: 15]
-/* 2662: disable webextension restrictions on certain mozilla domains (also see 4503) [FF60+]
+/* 2662: disable webextension restrictions on certain mozilla domains (you also need 4503) [FF60+]
  * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1384330,1406795,1415644,1453988 ***/
    // user_pref("extensions.webextensions.restrictedDomains", "");
 
@@ -1435,10 +1447,11 @@ user_pref("privacy.firstparty.isolate", true);
       FF65: pointerEvent.pointerid (1492766)
  ** 1485266 - disable exposure of system colors to CSS or canvas (see 4615) (FF67+)
  ** 1407366 - enable inner window letterboxing (see 4504) (FF67+)
- ** 1540726 - return "light" with prefers-color-scheme (see 4616) (FF67+)
+ ** 1494034 - return "light" with prefers-color-scheme (see 4616) (FF67+)
       [1] https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
  ** 1564422 - spoof audioContext outputLatency (FF70+)
  ** 1595823 - spoof audioContext sampleRate (FF72+)
+ ** 1607316 - spoof pointer as coarse and hover as none (ANDROID) (FF74+)
 ***/
 user_pref("_user.js.parrot", "4500 syntax error: the parrot's popped 'is clogs");
 /* 4501: enable privacy.resistFingerprinting [FF41+]
@@ -1561,12 +1574,12 @@ user_pref("dom.w3c_pointer_events.enabled", false);
 // * * * /
 // FF67+
 // 4615: [2618] disable exposure of system colors to CSS or canvas [FF44+]
-  // [NOTE] See second listed bug: may cause black on black for elements with undefined colors
-  // [SETUP-CHROME] Might affect CSS in themes and extensions
-  // [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=232227,1330876
+   // [NOTE] See second listed bug: may cause black on black for elements with undefined colors
+   // [SETUP-CHROME] Might affect CSS in themes and extensions
+   // [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=232227,1330876
 user_pref("ui.use_standins_for_native_colors", true);
 // 4616: enforce prefers-color-scheme as light [FF67+]
-  // 0=light, 1=dark : This overrides your OS value
+   // 0=light, 1=dark : This overrides your OS value
 user_pref("ui.systemUsesDarkTheme", 0); // [HIDDEN PREF]
 // * * * /
 // ***/
@@ -1690,7 +1703,36 @@ user_pref("toolkit.telemetry.hybridContent.enabled", false); // [FF59+]
    // [-] https://bugzilla.mozilla.org/1488583
 user_pref("dom.indexedDB.enabled", true); // [DEFAULT: true]
 // * * * /
+// FF74
+// 0203: use Mozilla geolocation service instead of Google when geolocation is enabled
+   // Optionally enable logging to the console (defaults to false)
+   // [-] https://bugzilla.mozilla.org/1613627
+user_pref("geo.wifi.uri", "https://location.services.mozilla.com/v1/geolocate?key=%MOZILLA_API_KEY%");
+   // user_pref("geo.wifi.logging.enabled", true); // [HIDDEN PREF]
+// 1704: set behaviour on "+ Tab" button to display container menu [FF53+] [SETUP-CHROME]
+   // 0=no menu (default), 1=show when clicked, 2=show on long press
+   // [1] https://bugzilla.mozilla.org/1328756
+   // [-] https://bugzilla.mozilla.org/1606265
+user_pref("privacy.userContext.longPressBehavior", 2);
+// 2012: limit WebGL
+   // [-] https://bugzilla.mozilla.org/1477756
+user_pref("webgl.disable-extensions", true);
+// * * * /
 // ***/
 
 /* END: internal custom pref to test for syntax errors ***/
 user_pref("_user.js.parrot", "SUCCESS: No no he's not dead, he's, he's restin'!");
+
+user_pref("browser.bookmarks.max_backups", 0);  // @jackwchoi
+user_pref("browser.cache.memory.enable", true);  // @jackwchoi
+user_pref("browser.newtabpage.enabled", true); // @jackwchoi
+user_pref("browser.privatebrowsing.autostart", true);  // @jackwchoi
+user_pref("browser.sessionstore.max_tabs_undo", 0);  // @jackwchoi
+user_pref("browser.startup.homepage", "about:home");  // @jackwchoi
+user_pref("browser.startup.page", 1);  // @jackwchoi
+user_pref("dom.battery.enabled", false);  // @jackwchoi
+user_pref("extensions.screenshots.disabled", true); // @jackwchoi
+user_pref("extensions.screenshots.upload-disabled", true); // @jackwchoi
+user_pref("geo.enabled", false);  // @jackwchoi
+user_pref("keyword.enabled", true);  // @jackwchoi
+user_pref("signon.rememberSignons", false);  // @jackwchoi

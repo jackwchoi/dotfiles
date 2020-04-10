@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+declare -r FILEPATH="$1"
+
+if [[ -f 'Cargo.toml' ]]; then
+  cargo run
+elif [[ -f 'stack.yaml' ]]; then
+  stack run
+else
+  time "$FILEPATH"
+fi
+
+echo
+date

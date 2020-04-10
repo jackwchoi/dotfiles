@@ -96,40 +96,34 @@ function clean_full {
 # reads from pipe and opens each app
 # assumes that given an app name $name, /Applications/$name.app exists
 function open_apps {
-  for app_name in "$@"; do
-    echo "Opening $app_name..." >&2
-    open "/Applications/$app_name.app" &
+  for APP_NAME in "$@"; do
+    echo "Opening $APP_NAME..." >&2
+    open "/Applications/$APP_NAME.app" &
   done
   wait
 }
 
 function update {
-
   necho 'Updating HomeBrew...'
   brew update
   necho 'Upgrading HomeBrew...'
   brew upgrade
-  necho 'Installing formula in Brewfile'
-  brew bundle install --file="$BREWFILE"
 
-  necho 'Updating ClamAV...'
-  freshclam --verbose
-
-  necho 'Updating Atom...'
-  apm update --no-confirm
+  necho 'Updating Rust...'
+  rustup update
+  rustup component add rustfmt
+  cargo install-update --all
 
   necho 'Updating Vim...'
   vim +PluginInstall +qall
   vim +PluginUpdate +qall
 
-  necho 'Updating Rust...'
-  rustup update
-  rustup component add rustfmt
-  cargo install-update -a
-
   necho 'Updating pip...'
   pip3 install --upgrade pip
   pip3 install plotly
+
+  necho 'Updating Atom...'
+  apm update --no-confirm
 }
 
 if $CLEAN; then

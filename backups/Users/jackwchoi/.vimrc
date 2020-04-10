@@ -12,6 +12,7 @@ call vundle#begin()
   Plugin 'let-def/vimbufsync'                " dependency for coqtail
   Plugin 'lifepillar/vim-mucomplete'         " auto-completion
   Plugin 'majutsushi/tagbar'
+  Plugin 'neovimhaskell/haskell-vim'
   Plugin 'octol/vim-cpp-enhanced-highlight'  " better syntax highlighting for C++
   Plugin 'reedes/vim-pencil'
   Plugin 'rust-lang/rust.vim'
@@ -123,10 +124,10 @@ set so=4
 set updatetime=512  " trigger after this many ms of inactivity
 autocmd CursorHoldI,InsertLeave * write
 
-command Build  execute "! clear && [[ -f Makefile ]] && make --print-directory || cargo check"
-command Format execute "! clear && [[ '%:t' =~ \.(cpp|hpp)$ ]] && clang-format -i '%:p' || cargo fmt; trim -i '%:p'"
-command Run    execute "! clear && time '%:p' && echo && date"
-command Test   execute "! clear && [[ '%:t' =~ \.rs$ ]] && cargo test"
+command Build  execute "! clear && jvim-build '%:p'"
+command Format execute "! clear && jvim-fmt   '%:p'"
+command Run    execute "! clear && jvim-run   '%:p'"
+command Test   execute "! clear && jvim-test  '%:p'"
 command Copy   execute "! clear && pbcopy < %:p"
 command Sk     execute "! sk ."
 "alias broot='! clear && \broot . --hidden --show-git-info'

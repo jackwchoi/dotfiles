@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+declare -r FILEPATH="$1"
+
+if [[ -f 'Cargo.toml' ]]; then
+  cargo test
+elif [[ -f 'stack.yaml' ]]; then
+  stack test
+fi
+
+echo
+date

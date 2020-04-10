@@ -7,6 +7,7 @@ echo ~/.atom/config.cson
 echo ~/.atom/keymap.cson
 echo ~/.atom/styles.less
 echo ~/.bash_profile
+echo ~/.config/htop/htoprc
 echo ~/.gitconfig
 echo ~/.gnupg/gpg-agent.conf
 echo ~/.tmux.conf
