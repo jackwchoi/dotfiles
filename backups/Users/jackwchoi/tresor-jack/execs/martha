@@ -1,9 +1,0 @@
-#!/usr/bin/env osascript
-
-tell app "Contacts" to activate
-
-try
-  tell application "System Events" to keystroke "abc"  using command down
-end try
-
-tell app "Contacts" to quit

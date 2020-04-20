@@ -76,21 +76,15 @@ function clean_quick {
 }
 
 function clean_full {
-  necho 'Cleaning Safari...'
-  clean-safari
-  clean-safari
-
   clean_quick &
   wait
 
   necho 'Cleaning Atom...'
   apm clean
 
-  necho 'Uninstalling HomeBrew formula not in Brewfile...'
-  brew bundle cleanup --force --file="$BREWFILE"
-
   necho 'Removing HomeBrew caches and old versions...'
-  brew cleanup
+  brew cleanup --verbose
+  brew cleanup --prune 0 --verbose
 }
 
 # reads from pipe and opens each app

@@ -1736,3 +1736,4 @@ user_pref("extensions.screenshots.upload-disabled", true); // @jackwchoi
 user_pref("geo.enabled", false);  // @jackwchoi
 user_pref("keyword.enabled", true);  // @jackwchoi
 user_pref("signon.rememberSignons", false);  // @jackwchoi
+user_pref("app.update.auto", true);  // @jackwchoi

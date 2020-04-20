@@ -118,7 +118,7 @@ set softtabstop=2
 set tabstop=2
 
 " keep this distance from top/bottom
-set so=4
+set so=8
 
 " auto commands
 set updatetime=512  " trigger after this many ms of inactivity
