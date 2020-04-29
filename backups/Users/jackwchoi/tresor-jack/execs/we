@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+function get {
+  wget -O - "$@" 2> /dev/null
+}
+
+declare -r LOCATION=$(
+  if rg -q '\S+' <<< "$1"; then
+    echo "$1"
+  else
+    echo 'nyc'
+  fi
+)
+
+get "wttr.in/$LOCATION"

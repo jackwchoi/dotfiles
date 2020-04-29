@@ -138,9 +138,6 @@ if $START_FULL; then
 
   necho 'Refreshing Calendar...'
   refresh-calendar &> /dev/null &
-
-  weather &
-
   wait
 elif $START_QUICK; then
   necho 'Performing START_QUICK...'
