@@ -93,6 +93,9 @@ set number relativenumber
 highlight CursorLine   ctermbg=None ctermfg=None cterm=underline
 highlight CursorLineNr ctermfg=blue
 
+" search highlights
+highlight Search ctermfg=black ctermbg=white
+
 " mark 100th column
 set colorcolumn=100
 highlight ColorColumn ctermbg=None ctermfg=None cterm=underline
@@ -108,6 +111,7 @@ set history=16
 " searching
 set hlsearch
 set incsearch
+set ignorecase
 set smartcase
 
 " tabs and deletion
@@ -124,6 +128,7 @@ set so=8
 set updatetime=512  " trigger after this many ms of inactivity
 autocmd CursorHoldI,InsertLeave * write
 
+command Bat    execute "! clear && bat '%:p'"
 command Build  execute "! clear && jvim-build '%:p'"
 command Format execute "! clear && jvim-fmt   '%:p'"
 command Run    execute "! clear && jvim-run   '%:p'"
