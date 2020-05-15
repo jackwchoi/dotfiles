@@ -9,6 +9,6 @@ declare -r COUNT=$(
 )
 
 #
-openssl rand -base64 "$(( $COUNT * 2))" |
+openssl rand -base64 "$(( $COUNT * 2 ))" |
   tr --delete --complement '[:alnum:]' |
   head -c "$COUNT"

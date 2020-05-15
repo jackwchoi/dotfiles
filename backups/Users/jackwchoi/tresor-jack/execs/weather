@@ -1,9 +1,17 @@
 #!/usr/bin/env bash
 
-declare -r LITTLE_FERRY='40.849,-74.0375'
+function get {
+  declare -r COORDS="$1"
+  declare -r DATE=$(date +'%Y-%m-%d')
+  open "https://darksky.net/details/$COORDS/$DATE/us12/en"
+}
 
-{
-  echo "https://darksky.net/forecast/$LITTLE_FERRY/us12/en"
-  echo "https://darksky.net/details/$LITTLE_FERRY/$(date +'%m-%d-%y')/us12/en"
-} |
-  xargs open -a 'Brave Browser'
+
+# fayetteville
+get '43.0307,-76.0036'
+
+# little ferry
+get '40.849,-74.0375'
+
+# dewitt
+get '43.0351,-76.0655'

@@ -74,6 +74,7 @@ alias broot='\broot . --hidden --show-gitignored --show-git-info'
 alias clam='\clamdscan --fdpass --infected --multiscan --verbose'
 alias clean="clear && printf '\e[3J' && ~/run.sh -c && clear && history -c"
 alias clear="clear && printf '\e[3J'"
+alias c='cargo'
 alias fd='\fd --hidden --no-ignore'
 alias fdup='\fdup --sort-vec'
 alias fzf='\fzf --border --color=dark,hl:9,hl+:9,bg+:-1 --inline-info'
@@ -116,11 +117,15 @@ alias ws="$WORKSPACE"
 # shell options
 shopt -s autocd cdspell globstar gnu_errfmt
 
-cal -3
-date
-
 export SHELL="/usr/local/bin/bash"
 
 neofetch
+
+cal -3
+echo
+seq 16 |
+  while read f; do 
+    date
+  done
 
 source /Users/jackwchoi/Library/Preferences/org.dystroy.broot/launcher/bash/br
