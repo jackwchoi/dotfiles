@@ -14,15 +14,15 @@ function green {
 function jsync {
   declare -r FSTRIP=$(sed -E 's/^\/+//' <<< "$1")
   mkdir --parents "$(dirname "$BACKUPS/$FSTRIP")" &&
-    rsync --archive --compress --human-readable "/$FSTRIP" "$BACKUPS/$FSTRIP"
+    cp -rv "/$FSTRIP" "$(dirname "$BACKUPS/$FSTRIP")/"
 }
 
 export ROOT BACKUPS BACKUPS
 export -f jsync
 
-#green 'saving custom files... &'
-#"$ROOT/lambda.sh" |
-#  parallel 'jsync {}' &
+green 'saving custom files... &'
+"$ROOT/lambda.sh" |
+  parallel 'jsync {}' &
 
 mkdir -p "$BACKUPS/"
 
