@@ -20,9 +20,9 @@ function jsync {
 export ROOT BACKUPS BACKUPS
 export -f jsync
 
-green 'saving custom files... &'
-"$ROOT/lambda.sh" |
-  parallel 'jsync {}' &
+#green 'saving custom files... &'
+#"$ROOT/lambda.sh" |
+#  parallel 'jsync {}' &
 
 mkdir -p "$BACKUPS/"
 
@@ -36,5 +36,7 @@ apm list --installed --bare |
 green 'saving cargo packages...& '
 cargo install --list |
   rg -o '^\S+' > "$MANUAL_BACKUPS/cargo_packages.txt" &
+
+cp ~/Library/Application\ Support/Firefox/Profiles/*/user.js "$MANUAL_BACKUPS/user.js"
 
 wait
