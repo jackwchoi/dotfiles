@@ -8,4 +8,5 @@ elif [[ -f 'stack.yaml' ]]; then
   time stack run; echo && date
 else
   time "$FILEPATH"; echo && date
-fi
+fi 2>&1 |
+  less --RAW-CONTROL-CHARS

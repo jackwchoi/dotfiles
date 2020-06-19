@@ -97,7 +97,7 @@ highlight CursorLineNr ctermfg=blue
 highlight Search ctermfg=black ctermbg=white
 
 " mark 100th column
-set colorcolumn=100
+set colorcolumn=128
 highlight ColorColumn ctermbg=None ctermfg=None cterm=underline
 
 " file saving
@@ -130,20 +130,26 @@ autocmd CursorHoldI,InsertLeave * write
 
 command Bat    execute "! clear && bat '%:p'"
 command Build  execute "! clear && jvim-build '%:p'"
-command Format execute "! clear && jvim-fmt   '%:p'"
-command Run    execute "! clear && jvim-run   '%:p'"
+command BuildL execute "! clear && jvim-build-less '%:p'"
+command Format execute "! clear && jvim-fmt '%:p'"
+command Run    execute "! clear && jvim-run '%:p'"
+command RunL    execute "! clear && jvim-run-less '%:p'"
 command Test   execute "! clear && jvim-test  '%:p'"
+command TestL  execute "! clear && jvim-test-less '%:p'"
 command Copy   execute "! clear && pbcopy < %:p"
 command Sk     execute "! sk ."
 "alias broot='! clear && \broot . --hidden --show-git-info'
 
 " keymaps
 nnoremap ./  :Run<LF>
+nnoremap .l  :RunL<LF>
 nnoremap bb  :Build<LF>
+nnoremap bl  :BuildL<LF>
 nnoremap cc  :Copy<LF><LF>
 nnoremap ff  :Format<LF>:edit!<LF><LF>
-nnoremap fzf :FZF<LF>
+nnoremap fzf :FZF<LF><LF>
 nnoremap rr  :source $MYVIMRC<LF>
 nnoremap tgs :TagbarToggle<LF>
+nnoremap tl  :TestL<LF>
 nnoremap tt  :Test<LF>
 nnoremap ww  :bd<LF>

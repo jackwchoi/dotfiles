@@ -124,8 +124,6 @@ neofetch
 cal -3
 echo
 seq 16 |
-  while read f; do 
+  while read f; do
     date
   done
-
-source /Users/jackwchoi/Library/Preferences/org.dystroy.broot/launcher/bash/br

@@ -3,14 +3,11 @@
 declare -r FILEPATH="$1"
 
 if rg -q '\.rs$' <<< "$FILEPATH"; then
-  cargo fmt
+  cargo fmt; echo && date
 elif rg -q '\.(cpp|hpp)$' <<< "$FILEPATH"; then
-  clang-format -i "$FILEPATH"
+  clang-format -i "$FILEPATH"; echo && date
 elif rg -q '\.hs$' <<< "$FILEPATH"; then
-  brittany --write-mode=inplace "$FILEPATH"
+  brittany --write-mode=inplace "$FILEPATH"; echo && date
+else
+  trim --in-place "$FILEPATH"; echo && date
 fi
-
-trim --in-place "$FILEPATH"
-
-echo
-date

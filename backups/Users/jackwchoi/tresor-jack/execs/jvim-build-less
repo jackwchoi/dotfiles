@@ -8,4 +8,5 @@ elif [[ -f 'Makefile' ]]; then
   time make --print-directory; echo && date
 elif [[ -f 'stack.yaml' ]]; then
   time stack build; echo && date
-fi
+fi 2>&1 |
+  less --RAW-CONTROL-CHARS
