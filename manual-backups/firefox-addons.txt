@@ -1,7 +1,9 @@
-https://addons.mozilla.org/en-US/firefox/addon/clearurls/?src=search
-https://addons.mozilla.org/en-US/firefox/addon/cookie-autodelete/?src=search
-https://addons.mozilla.org/en-US/firefox/addon/https-everywhere/?src=search
-https://addons.mozilla.org/en-US/firefox/addon/noscript/?src=search
-https://addons.mozilla.org/en-US/firefox/addon/site-bleacher/?src=search
-https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/?src=search
-https://addons.mozilla.org/en-US/firefox/addon/umatrix/?src=search
+https://addons.mozilla.org/en-US/firefox/addon/clearurls
+https://addons.mozilla.org/en-US/firefox/addon/cookie-autodelete
+https://addons.mozilla.org/en-US/firefox/addon/duckduckgo-for-firefox
+https://addons.mozilla.org/en-US/firefox/addon/https-everywhere
+https://addons.mozilla.org/en-US/firefox/addon/noscript
+https://addons.mozilla.org/en-US/firefox/addon/rusted-gears
+https://addons.mozilla.org/en-US/firefox/addon/site-bleacher
+https://addons.mozilla.org/en-US/firefox/addon/ublock-origin
+https://addons.mozilla.org/en-US/firefox/addon/umatrix
