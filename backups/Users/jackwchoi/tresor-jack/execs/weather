@@ -10,8 +10,5 @@ function get {
 # fayetteville
 get '43.0307,-76.0036'
 
-# little ferry
-get '40.849,-74.0375'
-
-# dewitt
-get '43.0351,-76.0655'
+# kendall
+get '42.3622,-71.0842'

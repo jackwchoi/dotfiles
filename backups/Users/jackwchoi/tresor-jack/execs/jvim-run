@@ -2,9 +2,9 @@
 
 declare -r FILEPATH="$1"
 
-if [[ -f 'Cargo.toml' ]]; then
+if [[ -f 'Cargo.toml' ]] && rg -q '\.rs$' <<< "$FILEPATH"; then
   time cargo run --color always; echo && date
-elif [[ -f 'stack.yaml' ]]; then
+elif [[ -f 'stack.yaml' ]] && rg -q '\.hs$' <<< "$FILEPATH"; then
   time stack run; echo && date
 else
   time "$FILEPATH"; echo && date
