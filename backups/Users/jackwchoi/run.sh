@@ -52,7 +52,7 @@ function clean_quick {
   {
     find ~/ -maxdepth 1
     find "$WORKSPACE"
-    find ~/{Desktop,Downloads}/
+    find ~/{Desktop,Documents,Downloads}/
     find ~/tresor-*
   } |
     rg "/(\.$REPL|\.$MISC|__pycache__)$" |

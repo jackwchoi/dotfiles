@@ -40,16 +40,6 @@ RESET_ALL='\[\e[0m\]'
 # http://man7.org/linux/man-pages/man3/strftime.3.html
 export PS1="\n$SET_FG_COLOR\w\n  $ $RESET_ALL"  # simple; for tmux
 
-# colorize `ls` output
-BLUE='34'
-CYAN='36'
-GREEN='32'
-GREY='37'
-ORANGE='33'
-PURPLE='35'
-RED='31'
-#export LS_COLORS="di=0;$PURPLE:ln=0;$CYAN:ex=0;$GREEN"
-
 # for `man` to work with gnu utils
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 export MANPATH="/usr/local/opt/findutils/libexec/gnuman:$MANPATH"
@@ -64,6 +54,7 @@ export FZF_DEFAULT_COMMAND='\fd .'
 #null false true numbers strings arrays objects
 export JQ_COLORS='0;31:0;36:0;36:0;33:0;32:0;37:0;37'
 export TERM='xterm-256color'
+export PAGER='less'
 
 # default options
 #alias tree='tree -aCF'  # colorize output
@@ -89,7 +80,7 @@ alias ls='\exa --all --classify'
 alias mkdir='\mkdir --parents --verbose'
 alias mv='\mv --interactive --verbose'
 alias ncdu='\ncdu -rr --color dark'
-alias nload='\nload devices en5 -u H'
+alias nload='\nload devices en0 -u H'
 alias oxipng='\oxipng --opt 4 --interlace 1 --strip safe'
 alias p='\parallel'
 alias pip='\pip3'
@@ -108,6 +99,21 @@ alias wrf='while read f; do'
 alias x='\xargs --delimiter "\n"'
 alias xargs='\xargs --delimiter "\n"'
 alias youtube-dl='youtube-dl --no-cache-dir'
+
+function bt {
+   \bat \
+      --color always \
+      --decorations always \
+      --map-syntax *.m:MATLAB \
+      --map-syntax *.hpp:C++ \
+      --map-syntax *.hs:Haskell \
+     "$@"
+}
+export -f bt
+function bl {
+  bt "$@" | less
+}
+export -f bl
 
 # for easy cd'ing
 alias clas="$WORKSPACE/mit/senior/spring"

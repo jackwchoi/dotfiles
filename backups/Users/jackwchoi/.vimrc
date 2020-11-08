@@ -1,4 +1,3 @@
-""""""""""""""""""""""""""""""" plugin configs
 set nocompatible
 
 " vundle
@@ -14,6 +13,7 @@ call vundle#begin()
   Plugin 'majutsushi/tagbar'
   Plugin 'neovimhaskell/haskell-vim'
   Plugin 'octol/vim-cpp-enhanced-highlight'  " better syntax highlighting for C++
+  Plugin 'raingo/vim-matlab'
   Plugin 'reedes/vim-pencil'
   Plugin 'rust-lang/rust.vim'
   Plugin 'sonph/onehalf', {'rtp': 'vim/'}
@@ -117,12 +117,15 @@ set smartcase
 " tabs and deletion
 set backspace=indent,eol,start
 set expandtab
-set shiftwidth=2
-set softtabstop=2
-set tabstop=2
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
 
 " keep this distance from top/bottom
 set so=8
+
+" fzf
+let g:fzf_layout = { 'down': '~40%' }
 
 " auto commands
 set updatetime=512  " trigger after this many ms of inactivity
@@ -133,7 +136,7 @@ command Build  execute "! clear && jvim-build '%:p'"
 command BuildL execute "! clear && jvim-build-less '%:p'"
 command Format execute "! clear && jvim-fmt '%:p'"
 command Run    execute "! clear && jvim-run '%:p'"
-command RunL    execute "! clear && jvim-run-less '%:p'"
+command RunL   execute "! clear && jvim-run-less '%:p'"
 command Test   execute "! clear && jvim-test  '%:p'"
 command TestL  execute "! clear && jvim-test-less '%:p'"
 command Copy   execute "! clear && pbcopy < %:p"
@@ -148,8 +151,10 @@ nnoremap bl  :BuildL<LF>
 nnoremap cc  :Copy<LF><LF>
 nnoremap ff  :Format<LF>:edit!<LF><LF>
 nnoremap fzf :FZF<LF><LF>
+nnoremap fzb :Buffers<LF>
 nnoremap rr  :source $MYVIMRC<LF>
 nnoremap tgs :TagbarToggle<LF>
 nnoremap tl  :TestL<LF>
 nnoremap tt  :Test<LF>
 nnoremap ww  :bd<LF>
+nnoremap rg  :Rg 
