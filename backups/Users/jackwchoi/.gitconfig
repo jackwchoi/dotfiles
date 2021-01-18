@@ -8,4 +8,4 @@
   status = auto
   grep = auto
 [alias]
-  lol = log --graph --oneline --date-order 
+  lol = log --all --graph --oneline --date-order 

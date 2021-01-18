@@ -22,7 +22,6 @@ export PATH="/usr/local/opt/zip/bin:$PATH"
 #
 export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/.cargo/bin:$PATH"
 
 # used to be dropbox
 export WORKSPACE="$HOME/tresor-jack"
@@ -65,7 +64,7 @@ alias broot='\broot . --hidden --show-gitignored --show-git-info'
 alias clam='\clamdscan --fdpass --infected --multiscan --verbose'
 alias clean="clear && printf '\e[3J' && ~/run.sh -c && clear && history -c && ls"
 alias clear="clear && printf '\e[3J'"
-alias c='cargo'
+alias c='clear && '
 alias fd='\fd --hidden --no-ignore'
 alias fdup='\fdup --sort-vec'
 alias fzf='\fzf --border --color=dark,hl:9,hl+:9,bg+:-1 --inline-info'
@@ -80,7 +79,7 @@ alias ls='\exa --all --classify'
 alias mkdir='\mkdir --parents --verbose'
 alias mv='\mv --interactive --verbose'
 alias ncdu='\ncdu -rr --color dark'
-alias nload='\nload devices en0 -u H'
+alias nload='\nload devices en7 -u H'
 alias oxipng='\oxipng --opt 4 --interlace 1 --strip safe'
 alias p='\parallel'
 alias pip='\pip3'
@@ -110,10 +109,17 @@ function bt {
      "$@"
 }
 export -f bt
+
 function bl {
   bt "$@" | less
 }
 export -f bl
+
+function gca {
+  git add . &&
+    git commit -m "$@"
+}
+export -f gca
 
 # for easy cd'ing
 alias clas="$WORKSPACE/mit/senior/spring"
@@ -133,3 +139,4 @@ seq 16 |
   while read f; do
     date
   done
+source "$HOME/.cargo/env"

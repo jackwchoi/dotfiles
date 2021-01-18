@@ -91,7 +91,7 @@ set cursorline
 set number relativenumber
 "highlight CursorColumn ctermbg=235 ctermfg=None cterm=None
 highlight CursorLine   ctermbg=None ctermfg=None cterm=underline
-highlight CursorLineNr ctermfg=blue
+highlight CursorLinenr ctermfg=blue
 
 " search highlights
 highlight Search ctermfg=black ctermbg=white
@@ -152,7 +152,7 @@ nnoremap cc  :Copy<LF><LF>
 nnoremap ff  :Format<LF>:edit!<LF><LF>
 nnoremap fzf :FZF<LF><LF>
 nnoremap fzb :Buffers<LF>
-nnoremap rr  :source $MYVIMRC<LF>
+nnoremap rr  :source $MYVIMRC<LF>:edit!<LF><LF>
 nnoremap tgs :TagbarToggle<LF>
 nnoremap tl  :TestL<LF>
 nnoremap tt  :Test<LF>

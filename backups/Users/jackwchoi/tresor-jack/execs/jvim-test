@@ -3,7 +3,7 @@
 declare -r FILEPATH="$1"
 
 if [[ -f 'Cargo.toml' ]]; then
-  time cargo test --color always; echo && date
+    ( set -x; time cargo test --color always; echo && date )
 elif [[ -f 'stack.yaml' ]]; then
-  time stack test; echo && date
+    ( set -x; time stack test; echo && date )
 fi

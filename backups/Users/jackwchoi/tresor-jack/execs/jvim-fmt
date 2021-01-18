@@ -1,13 +1,35 @@
 #!/usr/bin/env bash
 
-declare -r FILEPATH="$1"
+function finish {
+    echo
+    date
+}
+trap finish EXIT
 
-if rg -q '\.rs$' <<< "$FILEPATH"; then
-  cargo fmt; echo && date
-elif rg -q '\.(cpp|hpp)$' <<< "$FILEPATH"; then
-  clang-format -i "$FILEPATH"; echo && date
-elif rg -q '\.hs$' <<< "$FILEPATH"; then
-  brittany --write-mode=inplace "$FILEPATH"; echo && date
+# consts
+declare -r FILEPATH="$1"
+declare -r GIT_ROOT=$(git rev-parse --show-toplevel 2> /dev/null)
+
+#
+if [[ -d "$GIT_ROOT" ]]; then
+    cd "$GIT_ROOT"
+
+    if [[ -f 'Cargo.toml' ]]; then # rg -q '\.rs$' <<< "$FILEPATH"; then
+        ( 
+            set -x; 
+            cargo fmt ||
+               rustfmt --emit files "$FILEPATH";
+            echo && date
+        )
+    elif rg -q '\.(cpp|hpp)$' <<< "$FILEPATH"; then
+        ( set -x; clang-format -i "$FILEPATH"; echo && date )
+    elif rg -q '\.hs$' <<< "$FILEPATH"; then
+        ( set -x; brittany --write-mode=inplace "$FILEPATH"; echo && date )
+    else
+        ( set -x; trim --in-place "$FILEPATH"; echo && date )
+    fi
 else
-  trim --in-place "$FILEPATH"; echo && date
+    echo "'$(pwd)' is not a git repo... exiting..." >&2
+    exit 1
 fi
+

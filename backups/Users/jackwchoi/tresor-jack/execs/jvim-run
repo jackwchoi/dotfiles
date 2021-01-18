@@ -3,9 +3,9 @@
 declare -r FILEPATH="$1"
 
 if [[ -f 'Cargo.toml' ]] && rg -q '\.rs$' <<< "$FILEPATH"; then
-  time cargo run --color always; echo && date
+    ( set -x; time cargo run --color always; echo && date )
 elif [[ -f 'stack.yaml' ]] && rg -q '\.hs$' <<< "$FILEPATH"; then
-  time stack run; echo && date
+    ( set -x; time stack run; echo && date )
 else
-  time "$FILEPATH"; echo && date
+    time "$FILEPATH"; echo && date
 fi

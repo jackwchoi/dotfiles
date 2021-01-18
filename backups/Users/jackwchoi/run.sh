@@ -4,8 +4,8 @@
 # this returns 4 if using getopt(3)
 
 # parse options and args
-declare -r SHORT_OPS='cfqrsuC'
-declare -r LONG_OPS='clean,full-start,quick-start,restart,shutdown,update,full-clean'
+declare -r SHORT_OPS='cfqrsu'
+declare -r LONG_OPS='clean,full-start,quick-start,restart,shutdown,update'
 declare -r OPTS=$(getopt --unquoted --options $SHORT_OPS --longoptions $LONG_OPS -- "$@") PARSED=$?
 
 # exit if parsing failed
@@ -24,7 +24,6 @@ UPDATE=false
 while true; do
   case $1 in
     -c | --clean )        CLEAN=true;        shift;;
-    -C | --full-clean )   FULL_CLEAN=true;   shift;;
     -f | --full-start )   START_FULL=true;   shift;;
     -q | --quick-start )  START_QUICK=true;  shift;;
     -r | --restart )      RESTART=true;      shift;;
@@ -50,10 +49,9 @@ function clean_quick {
   declare -r REPL='(bash|julia|node_repl|scala|python|sqlite|zsh)_(history|sessions)'
   declare -r MISC='(cups|rnd|viminfo|DS_Store|putty|dbshell|history|aspell\.en\.(prepl|pws)|ipynb_checkpoints|grip|wget-hsts|ipython|lesshst|matplotlib|oracle_jre_usage|pdfbox\.cache|plotly|tooling|swp)'
   {
-    find ~/ -maxdepth 1
-    find "$WORKSPACE"
-    find ~/{Desktop,Documents,Downloads}/
-    find ~/tresor-*
+    find ~/ -maxdepth 1 -name '.*'
+    find ~/{Desktop,Documents,Downloads}/ -name '.*'
+    find ~/tresor-* -name '.*'
   } |
     rg "/(\.$REPL|\.$MISC|__pycache__)$" |
     rmf -t
@@ -73,18 +71,6 @@ function clean_quick {
 
   : | pbcopy
   wait
-}
-
-function clean_full {
-  clean_quick &
-  wait
-
-  necho 'Cleaning Atom...'
-  apm clean
-
-  necho 'Removing HomeBrew caches and old versions...'
-  brew cleanup --verbose
-  brew cleanup --prune 0 --verbose
 }
 
 # reads from pipe and opens each app
@@ -115,17 +101,11 @@ function update {
   necho 'Updating pip...'
   pip3 install --upgrade pip
   pip3 install plotly
-
-  necho 'Updating Atom...'
-  apm update --no-confirm
 }
 
 if $CLEAN; then
   necho 'Performing QUICK CLEAN...'
   clean_quick
-elif $FULL_CLEAN; then
-  necho 'Performing FULL CLEAN...'
-  clean_full
 fi
 
 if $START_FULL; then

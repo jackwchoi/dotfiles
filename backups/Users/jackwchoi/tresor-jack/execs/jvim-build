@@ -1,11 +1,29 @@
 #!/usr/bin/env bash
 
-declare -r FILEPATH="$1"
+function finish {
+    echo
+    date
+}
+trap finish EXIT
 
-if [[ -f 'Cargo.toml' ]]; then
-  time cargo check --color always; echo && date
-elif [[ -f 'Makefile' ]]; then
-  time make --print-directory; echo && date
-elif [[ -f 'stack.yaml' ]]; then
-  time stack build; echo && date
+# consts
+declare -r FILEPATH="$1"
+declare -r GIT_ROOT=$(git rev-parse --show-toplevel 2> /dev/null)
+
+#
+if [[ -d "$GIT_ROOT" ]]; then
+    cd "$GIT_ROOT"
+
+    # check what build system is used
+    if [[ -f 'Cargo.toml' ]]; then
+        ( set -x; time cargo check --color always; echo && date )
+    elif [[ -f 'Makefile' ]]; then
+        ( set -x; time make --print-directory; echo && date )
+    elif [[ -f 'stack.yaml' ]]; then
+        ( set -x; time stack build; echo && date )
+    fi
+else
+    echo "'$(pwd)' is not a git repo... exiting..." >&2
+    exit 1
 fi
+
