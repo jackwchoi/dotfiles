@@ -1,4 +1,5 @@
 set nocompatible
+syntax enable
 
 " vundle
 "filetype off

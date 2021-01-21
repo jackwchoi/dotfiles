@@ -46,26 +46,13 @@ function clean_quick {
   empty-trash &
 
   necho 'Cleaning files...'
-  declare -r REPL='(bash|julia|node_repl|scala|python|sqlite|zsh)_(history|sessions)'
-  declare -r MISC='(cups|rnd|viminfo|DS_Store|putty|dbshell|history|aspell\.en\.(prepl|pws)|ipynb_checkpoints|grip|wget-hsts|ipython|lesshst|matplotlib|oracle_jre_usage|pdfbox\.cache|plotly|tooling|swp)'
   {
-    find ~/ -maxdepth 1 -name '.*'
-    find ~/{Desktop,Documents,Downloads}/ -name '.*'
-    find ~/tresor-* -name '.*'
+    find ~/ -maxdepth 2 -type f -name '.*'
+    find ~/{Desktop,Documents,Downloads}/ -type f -name '.*'
   } |
-    rg "/(\.$REPL|\.$MISC|__pycache__)$" |
+    rg '/.(bash|python|zsh)_(history|sessions)|(viminfo|DS_Store|history|aspell\.en\.(prepl|pws)|wget-hsts|lesshst|swp)$' |
+    sort | uniq |
     rmf -t
-
-  necho 'Cleaning caches...'
-  rmf -t ~/Library/Webkit/com.apple.Safari \
-         ~/Library/Caches/{Google,Homebrew,qlmanage,Firefox} \
-         ~/Library/Caches/com.apple.{Safari,Safari.SafeBrowsing,Spotlight,QuickLookDaemon,finder} \
-         ~/Library/Caches/com.google.{Keystone,Keystone.Agent,SoftwareUpdate} \
-         ~/Library/Caches/BraveSoftware \
-         ~/Library/Caches/com.brave.Browser \
-         ~/.tor/ \
-         ~/Library/Caches/co.zeit.hyper \
-         ~/Library/Saved\ Application\ State
 
   qlmanage -r
 
