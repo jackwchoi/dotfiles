@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+declare -r FILEPATH="$1"
+
+if [[ -f 'Cargo.toml' ]]; then
+    ( set -x; time cargo test --color always --no-run; echo && date )
+fi

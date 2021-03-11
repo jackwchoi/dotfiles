@@ -6,7 +6,6 @@
     ".atom/styles.less",
     ".bash_profile",
     ".config/alacritty/",
-    ".config/starship.toml",
     ".gitconfig",
     ".gnupg/gpg-agent.conf",
     ".tmux.conf",

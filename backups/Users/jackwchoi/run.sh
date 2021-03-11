@@ -47,8 +47,9 @@ function clean_quick {
 
   necho 'Cleaning files...'
   {
+    find ./ -maxdepth 2 -type f -name '.*'
     find ~/ -maxdepth 2 -type f -name '.*'
-    find ~/{Desktop,Documents,Downloads}/ -type f -name '.*'
+    find ~/{Desktop,Documents,Downloads}/ -maxdepth 2 -type f -name '.*'
   } |
     rg '/.(bash|python|zsh)_(history|sessions)|(viminfo|DS_Store|history|aspell\.en\.(prepl|pws)|wget-hsts|lesshst|swp)$' |
     sort | uniq |

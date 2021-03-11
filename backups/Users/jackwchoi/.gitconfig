@@ -9,3 +9,5 @@
   grep = auto
 [alias]
   lol = log --all --graph --oneline --date-order 
+[init]
+	defaultBranch = main

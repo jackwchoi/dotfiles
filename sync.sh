@@ -29,10 +29,6 @@ mkdir -p "$BACKUPS/"
 green 'saving brew configs... &'
 brew bundle dump --force --file="$MANUAL_BACKUPS/Brewfile" &
 
-green 'saving atom configs and packages... &'
-apm list --installed --bare |
-  rg -o '^[^@]+' > "$MANUAL_BACKUPS/atom-packages.txt" &
-
 green 'saving cargo packages...& '
 cargo install --list |
   rg -o '^\S+' > "$MANUAL_BACKUPS/cargo_packages.txt" &

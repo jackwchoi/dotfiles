@@ -17,6 +17,8 @@ if [[ -d "$GIT_ROOT" ]]; then
     # check what build system is used
     if [[ -f 'Cargo.toml' ]]; then
         ( set -x; time cargo check --color always; echo && date )
+    elif [[ -f 'book.toml' ]]; then
+        ( set -x; time mdbook build; echo && date )
     elif [[ -f 'Makefile' ]]; then
         ( set -x; time make --print-directory; echo && date )
     elif [[ -f 'stack.yaml' ]]; then

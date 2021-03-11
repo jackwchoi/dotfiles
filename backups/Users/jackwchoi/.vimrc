@@ -1,32 +1,33 @@
 set nocompatible
-syntax enable
 
 " vundle
-"filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-  Plugin 'VundleVim/Vundle.vim'
-  Plugin 'airblade/vim-gitgutter'
-  Plugin 'junegunn/fzf'
-  Plugin 'junegunn/fzf.vim'
-  Plugin 'let-def/vimbufsync'                " dependency for coqtail
-  Plugin 'lifepillar/vim-mucomplete'         " auto-completion
-  Plugin 'majutsushi/tagbar'
-  Plugin 'neovimhaskell/haskell-vim'
-  Plugin 'octol/vim-cpp-enhanced-highlight'  " better syntax highlighting for C++
-  Plugin 'raingo/vim-matlab'
-  Plugin 'reedes/vim-pencil'
-  Plugin 'rust-lang/rust.vim'
-  Plugin 'sonph/onehalf', {'rtp': 'vim/'}
-  Plugin 'townk/vim-autoclose'
-  Plugin 'vim-airline/vim-airline'
-  Plugin 'vim-airline/vim-airline-themes'
-  Plugin 'vim-scripts/a.vim'
-  Plugin 'vim-syntastic/syntastic'  " simple C++ syntax checker
-  Plugin 'whonore/coqtail'          " Coq plugin
-  Plugin 'xavierd/clang_complete'   " C++ auto-completion
+    "Plugin 'let-def/vimbufsync'                " dependency for coqtail
+    "Plugin 'majutsushi/tagbar'
+    "Plugin 'raingo/vim-matlab'
+    "Plugin 'whonore/coqtail'          " Coq plugin
+    Plugin 'VundleVim/Vundle.vim'
+    Plugin 'Yggdroot/indentLine'
+    Plugin 'airblade/vim-gitgutter'
+    Plugin 'junegunn/fzf'
+    Plugin 'junegunn/fzf.vim'
+    Plugin 'lifepillar/vim-mucomplete'         " auto-completion
+    Plugin 'neovimhaskell/haskell-vim'
+    Plugin 'octol/vim-cpp-enhanced-highlight'  " better syntax highlighting for C++
+    Plugin 'rust-lang/rust.vim'
+    Plugin 'sheerun/vim-polyglot'
+    Plugin 'sonph/onehalf', {'rtp': 'vim/'}
+    Plugin 'townk/vim-autoclose'
+    Plugin 'vim-airline/vim-airline'
+    Plugin 'vim-airline/vim-airline-themes'
+    Plugin 'vim-scripts/a.vim'
+    Plugin 'vim-syntastic/syntastic'  " simple C++ syntax checker
+    Plugin 'xavierd/clang_complete'   " C++ auto-completion
 call vundle#end()
-filetype plugin indent on
+
+"
+let g:indentLine_setConceal = 0
 
 " airline
 let g:airline#extensions#tabline#enabled = 1
@@ -34,7 +35,6 @@ let g:airline#extensions#tabline#formatter = 'default'
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline_theme = 'bubblegum'
-"let g:airline_theme = 'minimalist'
 
 " cpp-enhanced-highlight
 let g:cpp_class_decl_highlight = 1
@@ -63,6 +63,9 @@ let g:clang_snippets=1
 let g:clang_trailing_placeholder=1
 let g:clang_user_options = '-std=c++17 -Wall -O0'
 
+" indentLine
+let g:indentLine_char = '┊'
+
 " mucomplete
 set infercase
 set completeopt=""
@@ -75,7 +78,12 @@ let g:mucomplete#enable_auto_at_startup = 1
 """""""""""""""""""""""""""""""" builtin configs
 
 syntax on
-colorscheme onehalfdark " put here to change syntax coloring only
+
+set background=dark
+
+colorscheme onehalfdark
+let g:airline_theme='onehalfdark'
+highlight comment ctermbg=None ctermfg=darkgray cterm=None
 
 " use the default background color of the terminal
 highlight LineNr ctermbg=None ctermfg=None
@@ -87,10 +95,10 @@ highlight GitGutterChange ctermbg=None ctermfg=yellow
 highlight GitGutterDelete ctermbg=None ctermfg=red
 
 " configs for the current line/column
-"set cursorcolumn
+" set cursorcolumn
 set cursorline
 set number relativenumber
-"highlight CursorColumn ctermbg=235 ctermfg=None cterm=None
+" highlight CursorColumn ctermbg=None ctermfg=None cterm=underline
 highlight CursorLine   ctermbg=None ctermfg=None cterm=underline
 highlight CursorLinenr ctermfg=blue
 
@@ -134,6 +142,7 @@ autocmd CursorHoldI,InsertLeave * write
 
 command Bat    execute "! clear && bat '%:p'"
 command Build  execute "! clear && jvim-build '%:p'"
+command TestBuild  execute "! clear && jvim-test-build '%:p'"
 command BuildL execute "! clear && jvim-build-less '%:p'"
 command Format execute "! clear && jvim-fmt '%:p'"
 command Run    execute "! clear && jvim-run '%:p'"
@@ -148,6 +157,7 @@ command Sk     execute "! sk ."
 nnoremap ./  :Run<LF>
 nnoremap .l  :RunL<LF>
 nnoremap bb  :Build<LF>
+nnoremap tb  :TestBuild<LF>
 nnoremap bl  :BuildL<LF>
 nnoremap cc  :Copy<LF><LF>
 nnoremap ff  :Format<LF>:edit!<LF><LF>

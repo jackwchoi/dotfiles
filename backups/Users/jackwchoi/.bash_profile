@@ -64,6 +64,7 @@ alias broot='\broot . --hidden --show-gitignored --show-git-info'
 alias clam='\clamdscan --fdpass --infected --multiscan --verbose'
 alias clean="clear && printf '\e[3J' && ~/run.sh -c && clear && history -c && ls"
 alias clear="clear && printf '\e[3J'"
+alias cp='\cp --verbose'
 alias c='clear && '
 alias fd='\fd --hidden --no-ignore'
 alias fdup='\fdup --sort-vec'
@@ -121,6 +122,12 @@ function gca {
 }
 export -f gca
 
+function vimtmp {
+    declare -r TMPF=$(mktemp --suffix='.md')
+    vim "$TMPF" 
+}
+export -f vimtmp
+
 # for easy cd'ing
 alias clas="$WORKSPACE/mit/senior/spring"
 alias tmp="$WORKSPACE/temps"
@@ -140,3 +147,5 @@ seq 16 |
     date
   done
 source "$HOME/.cargo/env"
+
+eval "$(starship init bash)"

@@ -25,6 +25,8 @@ if [[ -d "$GIT_ROOT" ]]; then
         ( set -x; clang-format -i "$FILEPATH"; echo && date )
     elif rg -q '\.hs$' <<< "$FILEPATH"; then
         ( set -x; brittany --write-mode=inplace "$FILEPATH"; echo && date )
+    elif rg -q '\.json$' <<< "$FILEPATH"; then
+        ( set -x; jq . --sort-keys < "$FILEPATH" | pbcopy && pbpaste > "$FILEPATH" )
     else
         ( set -x; trim --in-place "$FILEPATH"; echo && date )
     fi

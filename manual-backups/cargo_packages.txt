@@ -1,4 +1,5 @@
 cargo-update
 fdup
+mdtoc
 rmf
 trim
