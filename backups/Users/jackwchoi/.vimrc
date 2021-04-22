@@ -13,7 +13,7 @@ call vundle#begin()
     Plugin 'junegunn/fzf'
     Plugin 'junegunn/fzf.vim'
     Plugin 'lifepillar/vim-mucomplete'         " auto-completion
-    Plugin 'neovimhaskell/haskell-vim'
+    "Plugin 'neovimhaskell/haskell-vim'
     Plugin 'octol/vim-cpp-enhanced-highlight'  " better syntax highlighting for C++
     Plugin 'rust-lang/rust.vim'
     Plugin 'sheerun/vim-polyglot'
@@ -46,9 +46,9 @@ let g:cpp_posix_standard = 1
 " syntastic
 let g:syntastic_check_on_wq = 0
 let g:syntastic_cpp_auto_refresh_includes = 1
-let g:syntastic_cpp_check_header = 1
-let g:syntastic_cpp_compiler = 'clang++'
-let g:syntastic_cpp_compiler_options = ' -std=c++17 -Wall -O0'
+let g:syntastic_cpp_check_header = 0
+let g:syntastic_cpp_compiler = 'g++'
+let g:syntastic_cpp_compiler_options = ' -std=c++17 -Wall -Wextra -Wpedantic -O0'
 let g:syntastic_cpp_no_default_include_dirs = 1
 let g:syntastic_cpp_no_include_search = 1
 

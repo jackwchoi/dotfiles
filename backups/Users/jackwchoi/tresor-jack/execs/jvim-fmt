@@ -22,9 +22,13 @@ if [[ -d "$GIT_ROOT" ]]; then
             echo && date
         )
     elif rg -q '\.(cpp|hpp)$' <<< "$FILEPATH"; then
-        ( set -x; clang-format -i "$FILEPATH"; echo && date )
+        ( set -x; clang-format --style='{BasedOnStyle: Google, ColumnLimit: 100, IndentWidth: 4}' -i "$FILEPATH"; echo && date )
     elif rg -q '\.hs$' <<< "$FILEPATH"; then
-        ( set -x; brittany --write-mode=inplace "$FILEPATH"; echo && date )
+        ( set -x
+          brittany --write-mode=inplace "$FILEPATH" --config-file "$GIT_ROOT/brittany.conf"
+          echo
+          date )
+        ( set -x; trim --in-place "$FILEPATH"; echo && date )
     elif rg -q '\.json$' <<< "$FILEPATH"; then
         ( set -x; jq . --sort-keys < "$FILEPATH" | pbcopy && pbpaste > "$FILEPATH" )
     else
